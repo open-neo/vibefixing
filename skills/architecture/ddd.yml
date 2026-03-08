@@ -1,0 +1,28 @@
+skillId: arch-ddd
+category: architecture
+name: Domain-Driven Design
+version: "1.0.0"
+match:
+  files:
+    - "*.ts"
+    - "*.tsx"
+    - "*.js"
+    - "*.py"
+    - "*.java"
+    - "*.go"
+rules:
+  - "Use ubiquitous language in code and documentation"
+  - "Define bounded contexts with clear boundaries"
+  - "Use value objects for identity-less concepts"
+  - "Aggregate roots enforce invariants"
+  - "Domain events for cross-context communication"
+antiPatterns:
+  - "Anemic domain models (data-only classes)"
+  - "Business logic in application services instead of domain"
+  - "Breaking aggregate boundaries"
+  - "Missing domain events for state changes"
+severity:
+  "Anemic domain models (data-only classes)": medium
+  "Business logic in application services instead of domain": medium
+  "Breaking aggregate boundaries": high
+  "Missing domain events for state changes": low

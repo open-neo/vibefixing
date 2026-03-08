@@ -1,0 +1,28 @@
+skillId: arch-clean-architecture
+category: architecture
+name: Clean Architecture
+version: "1.0.0"
+match:
+  files:
+    - "*.ts"
+    - "*.tsx"
+    - "*.js"
+    - "*.py"
+    - "*.java"
+    - "*.go"
+rules:
+  - "Separate business logic from infrastructure concerns"
+  - "Dependencies point inward (domain has no external dependencies)"
+  - "Use dependency injection for external services"
+  - "Define interfaces at domain boundaries"
+  - "Keep use cases independent of frameworks"
+antiPatterns:
+  - "Business logic in controllers or handlers"
+  - "Direct database calls from domain logic"
+  - "Framework-specific code in business logic"
+  - "Circular dependencies between layers"
+severity:
+  "Business logic in controllers or handlers": medium
+  "Direct database calls from domain logic": medium
+  "Framework-specific code in business logic": low
+  "Circular dependencies between layers": high

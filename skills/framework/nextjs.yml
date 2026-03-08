@@ -1,0 +1,27 @@
+skillId: fw-nextjs
+category: framework
+name: Next.js Patterns
+version: "1.0.0"
+language: typescript
+match:
+  files:
+    - "*.ts"
+    - "*.tsx"
+  dependencies:
+    - next
+rules:
+  - "Use Server Components by default, Client Components only when needed"
+  - "Prefer Next.js Image component over native img"
+  - "Use Next.js Link for client-side navigation"
+  - "Implement proper error boundaries"
+  - "Use metadata API for SEO"
+antiPatterns:
+  - "Using 'use client' unnecessarily"
+  - "Direct DOM manipulation in components"
+  - "Importing large libraries in server components"
+  - "Missing loading.tsx or error.tsx"
+severity:
+  "Using 'use client' unnecessarily": low
+  "Direct DOM manipulation in components": medium
+  "Importing large libraries in server components": medium
+  "Missing loading.tsx or error.tsx": low

@@ -1,0 +1,14 @@
+{
+  "name": "example-nestjs-layered",
+  "private": true,
+  "dependencies": {
+    "@nestjs/core": "^10.0.0",
+    "@nestjs/common": "^10.0.0",
+    "@nestjs/platform-express": "^10.0.0",
+    "reflect-metadata": "^0.2.0",
+    "rxjs": "^7.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

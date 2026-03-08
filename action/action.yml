@@ -1,0 +1,250 @@
+name: 'VibeFixing'
+description: 'AI-powered code health analysis for your PRs'
+author: 'open-neo'
+
+branding:
+  icon: 'shield'
+  color: 'blue'
+
+inputs:
+  scan:
+    description: 'Run scan on changed files'
+    required: false
+    default: 'true'
+  review:
+    description: 'Run AI review on changed files'
+    required: false
+    default: 'false'
+  severity:
+    description: 'Minimum severity to report (info|low|medium|high|critical)'
+    required: false
+    default: 'medium'
+  skills:
+    description: 'Comma-separated skill IDs to use (auto-detect if empty)'
+    required: false
+    default: ''
+  fail-on-findings:
+    description: 'Fail the check if findings are detected'
+    required: false
+    default: 'true'
+  comment:
+    description: 'Post findings as PR comment'
+    required: false
+    default: 'true'
+  format:
+    description: 'Output format (table|json|sarif)'
+    required: false
+    default: 'table'
+  working-directory:
+    description: 'Working directory for analysis'
+    required: false
+    default: '.'
+
+outputs:
+  findings-count:
+    description: 'Number of findings detected'
+  architecture-score:
+    description: 'Architecture health score (0-100)'
+  security-score:
+    description: 'Security health score (0-100)'
+  quality-score:
+    description: 'Quality health score (0-100)'
+  overall-score:
+    description: 'Overall health score (0-100)'
+  sarif-file:
+    description: 'Path to SARIF output file (if format is sarif)'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install VibeFixing
+      shell: bash
+      run: npm install -g vibefixing@latest
+
+    - name: Run Doctor
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: vibefixing doctor || true
+
+    - name: Run Scan
+      if: inputs.scan == 'true'
+      shell: bash
+      id: scan
+      working-directory: ${{ inputs.working-directory }}
+      run: |
+        ARGS="--format json"
+        if [ -n "${{ inputs.severity }}" ]; then
+          ARGS="$ARGS --severity ${{ inputs.severity }}"
+        fi
+        if [ -n "${{ inputs.skills }}" ]; then
+          ARGS="$ARGS --skills ${{ inputs.skills }}"
+        fi
+
+        vibefixing scan $ARGS > /tmp/vibefixing-scan.json 2>&1 || true
+
+        FINDINGS=$(cat /tmp/vibefixing-scan.json | python3 -c "import json,sys; d=json.load(sys.stdin); print(len(d.get('findings',[])))" 2>/dev/null || echo "0")
+        echo "findings-count=$FINDINGS" >> $GITHUB_OUTPUT
+
+    - name: Run Review
+      if: inputs.review == 'true'
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      env:
+        ANTHROPIC_API_KEY: ${{ env.ANTHROPIC_API_KEY }}
+        OPENAI_API_KEY: ${{ env.OPENAI_API_KEY }}
+      run: |
+        vibefixing review --diff --format json > /tmp/vibefixing-review.json 2>&1 || true
+
+    - name: Generate SARIF
+      if: inputs.format == 'sarif'
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: |
+        vibefixing scan --format sarif > /tmp/vibefixing.sarif 2>&1 || true
+        echo "sarif-file=/tmp/vibefixing.sarif" >> $GITHUB_OUTPUT
+
+    - name: Post PR Comment
+      if: inputs.comment == 'true' && github.event_name == 'pull_request'
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        if [ ! -f /tmp/vibefixing-scan.json ]; then
+          echo "No scan results to comment"
+          exit 0
+        fi
+
+        # Generate comment body
+        COMMENT_BODY=$(python3 << 'PYEOF'
+        import json
+        import sys
+
+        try:
+            with open('/tmp/vibefixing-scan.json') as f:
+                data = json.load(f)
+        except:
+            print("No scan data available")
+            sys.exit(0)
+
+        findings = data.get('findings', [])
+        files_scanned = data.get('filesScanned', 0)
+        duration = data.get('duration', 0)
+        skills = data.get('skills', [])
+
+        lines = []
+        lines.append("## VibeFixing Report")
+        lines.append("")
+        lines.append(f"**{files_scanned}** files scanned in **{duration}ms** using skills: {', '.join(skills) or 'auto-detected'}")
+        lines.append("")
+
+        if not findings:
+            lines.append("> **No issues found.**")
+        else:
+            # Count by severity
+            counts = {}
+            for f in findings:
+                sev = f.get('severity', 'info')
+                counts[sev] = counts.get(sev, 0) + 1
+
+            summary_parts = []
+            for sev in ['critical', 'high', 'medium', 'low', 'info']:
+                if counts.get(sev, 0) > 0:
+                    emoji = {'critical': '🔴', 'high': '🟠', 'medium': '🟡', 'low': '🔵', 'info': '⚪'}
+                    summary_parts.append(f"{emoji.get(sev, '')} {counts[sev]} {sev}")
+
+            lines.append(f"**{len(findings)} findings**: {' | '.join(summary_parts)}")
+            lines.append("")
+            lines.append("| Severity | File | Issue | Line |")
+            lines.append("|---|---|---|---|")
+
+            for f in findings[:20]:  # Limit to 20
+                sev = f.get('severity', 'info')
+                emoji = {'critical': '🔴', 'high': '🟠', 'medium': '🟡', 'low': '🔵', 'info': '⚪'}.get(sev, '')
+                file_path = f.get('filePath', '')
+                title = f.get('title', '')
+                line = f.get('line', '')
+                lines.append(f"| {emoji} {sev} | `{file_path}` | {title} | {line} |")
+
+            if len(findings) > 20:
+                lines.append(f"| | | ... and {len(findings) - 20} more | |")
+
+        # Summary for Reviewers section
+        lines.append("")
+        lines.append("### Summary for Reviewers")
+        lines.append("")
+
+        if findings:
+            # Determine risk level
+            if any(f.get('severity') == 'critical' for f in findings):
+                risk_emoji = ":red_circle:"
+                risk_text = "Block"
+            elif any(f.get('severity') in ('critical', 'high') for f in findings):
+                risk_emoji = ":yellow_circle:"
+                risk_text = "Needs Attention"
+            else:
+                risk_emoji = ":green_circle:"
+                risk_text = "Safe"
+
+            lines.append(f"**Risk level:** {risk_emoji} {risk_text}")
+            lines.append("")
+            lines.append("**Key things to know:**")
+
+            for f in findings[:5]:
+                sev = f.get('severity', 'info')
+                sev_emoji = {'critical': ':red_circle:', 'high': ':orange_circle:', 'medium': ':yellow_circle:', 'low': ':blue_circle:', 'info': ':white_circle:'}.get(sev, ':white_circle:')
+                lines.append(f"- {sev_emoji} {f.get('title', '')}")
+
+            lines.append("")
+            lines.append("<details>")
+            lines.append(f"<summary>File-by-file breakdown ({len(findings)} findings)</summary>")
+            lines.append("")
+            lines.append("| Status | File | Issue |")
+            lines.append("|--------|------|-------|")
+            for f in findings[:20]:
+                sev = f.get('severity', 'info')
+                sev_emoji = {'critical': ':red_circle:', 'high': ':orange_circle:', 'medium': ':yellow_circle:', 'low': ':blue_circle:', 'info': ':white_circle:'}.get(sev, ':white_circle:')
+                lines.append(f"| {sev_emoji} | `{f.get('filePath', '')}` | {f.get('title', '')} |")
+            lines.append("")
+            lines.append("</details>")
+        else:
+            lines.append(f"**Risk level:** :green_circle: Safe")
+            lines.append("")
+            lines.append("No issues found — this PR looks good to approve.")
+
+        lines.append("")
+        lines.append("---")
+        lines.append("*Powered by [VibeFixing](https://github.com/open-neo/vibefixing) — code health CLI for the AI coding era*")
+
+        print('\n'.join(lines))
+        PYEOF
+        )
+
+        # Post or update comment
+        PR_NUMBER=${{ github.event.pull_request.number }}
+        EXISTING_COMMENT=$(gh api repos/${{ github.repository }}/issues/${PR_NUMBER}/comments \
+          --jq '.[] | select(.body | startswith("## VibeFixing Report")) | .id' \
+          2>/dev/null | head -1)
+
+        if [ -n "$EXISTING_COMMENT" ]; then
+          gh api repos/${{ github.repository }}/issues/comments/${EXISTING_COMMENT} \
+            -X PATCH \
+            -f body="$COMMENT_BODY"
+        else
+          gh api repos/${{ github.repository }}/issues/${PR_NUMBER}/comments \
+            -f body="$COMMENT_BODY"
+        fi
+
+    - name: Check Findings
+      if: inputs.fail-on-findings == 'true'
+      shell: bash
+      run: |
+        FINDINGS="${{ steps.scan.outputs.findings-count }}"
+        if [ "$FINDINGS" != "0" ] && [ -n "$FINDINGS" ]; then
+          echo "::error::VibeFixing found $FINDINGS issues"
+          exit 1
+        fi

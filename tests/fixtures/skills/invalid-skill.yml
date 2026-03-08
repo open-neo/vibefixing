@@ -1,0 +1,4 @@
+# Invalid skill - missing required fields
+name: Invalid Skill
+version: "not-semver"
+rules: []

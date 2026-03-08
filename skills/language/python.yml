@@ -1,0 +1,26 @@
+skillId: lang-python
+category: language
+name: Python Best Practices
+version: "1.0.0"
+language: python
+match:
+  files:
+    - "*.py"
+  dependencies:
+    - python
+rules:
+  - "Use type hints for function signatures"
+  - "Follow PEP 8 style guidelines"
+  - "Use context managers for resource handling"
+  - "Prefer f-strings over format() or % formatting"
+  - "Use dataclasses or Pydantic for data models"
+antiPatterns:
+  - "Using bare except clauses"
+  - "Mutable default arguments in function definitions"
+  - "Using global variables"
+  - "Catching and silently ignoring exceptions"
+severity:
+  "Using bare except clauses": high
+  "Mutable default arguments in function definitions": medium
+  "Using global variables": medium
+  "Catching and silently ignoring exceptions": high

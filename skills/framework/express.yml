@@ -1,0 +1,26 @@
+skillId: fw-express
+category: framework
+name: Express.js Best Practices
+version: "1.0.0"
+language: typescript
+match:
+  files:
+    - "*.ts"
+    - "*.js"
+  dependencies:
+    - express
+rules:
+  - "Use middleware for cross-cutting concerns"
+  - "Implement proper error handling middleware"
+  - "Validate all request inputs"
+  - "Use helmet for security headers"
+antiPatterns:
+  - "Missing error handling middleware"
+  - "Synchronous operations blocking event loop"
+  - "Hardcoded CORS origins"
+  - "Missing rate limiting"
+severity:
+  "Missing error handling middleware": high
+  "Synchronous operations blocking event loop": medium
+  "Hardcoded CORS origins": medium
+  "Missing rate limiting": medium

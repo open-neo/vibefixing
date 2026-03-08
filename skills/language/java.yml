@@ -1,0 +1,25 @@
+skillId: lang-java
+category: language
+name: Java Best Practices
+version: "1.0.0"
+language: java
+match:
+  files:
+    - "*.java"
+  dependencies:
+    - java
+rules:
+  - "Use Optional instead of null returns"
+  - "Prefer immutable collections"
+  - "Close resources with try-with-resources"
+  - "Use meaningful exception types"
+antiPatterns:
+  - "Catching generic Exception"
+  - "Using raw types instead of generics"
+  - "Returning null from methods"
+  - "Using mutable static fields"
+severity:
+  "Catching generic Exception": medium
+  "Using raw types instead of generics": medium
+  "Returning null from methods": low
+  "Using mutable static fields": high

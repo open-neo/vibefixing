@@ -1,0 +1,25 @@
+skillId: lang-go
+category: language
+name: Go Best Practices
+version: "1.0.0"
+language: go
+match:
+  files:
+    - "*.go"
+  dependencies:
+    - go
+rules:
+  - "Always handle errors explicitly"
+  - "Use defer for cleanup operations"
+  - "Prefer composition over inheritance"
+  - "Use context.Context for cancellation"
+antiPatterns:
+  - "Ignoring returned errors"
+  - "Using panic for normal error handling"
+  - "Global mutable state"
+  - "Using init() functions with side effects"
+severity:
+  "Ignoring returned errors": high
+  "Using panic for normal error handling": high
+  "Global mutable state": medium
+  "Using init() functions with side effects": low

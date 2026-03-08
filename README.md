@@ -1,0 +1,234 @@
+<p align="center">
+  <img src="https://img.shields.io/badge/VibeFixing-code%20health%20for%20AI%20era-blue?style=for-the-badge" alt="VibeFixing" />
+</p>
+
+<h3 align="center">Code health CLI for the AI coding era.</h3>
+
+<p align="center">
+  Detect architecture issues, security risks, and quality problems<br>
+  — aware of your stack, framework, and workflow.
+</p>
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/vibefixing"><img src="https://img.shields.io/npm/v/vibefixing.svg" alt="npm version" /></a>
+  <a href="https://github.com/open-neo/vibefixing/stargazers"><img src="https://img.shields.io/github/stars/open-neo/vibefixing?style=social" alt="GitHub stars" /></a>
+  <a href="https://github.com/open-neo/vibefixing/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-green.svg" alt="License" /></a>
+</p>
+
+<p align="center">
+  <a href="#quick-start">Quick Start</a> &middot;
+  <a href="#what-it-checks">What It Checks</a> &middot;
+  <a href="#built-in-skills">Skills</a> &middot;
+  <a href="#github-action">GitHub Action</a> &middot;
+  <a href="#open-source-vs-cloud">OSS vs Cloud</a> &middot;
+  <a href="#contributing">Contributing</a>
+</p>
+
+---
+
+## Why Now
+
+AI writes code faster than teams can review it.
+
+eslint checks syntax. VibeFixing checks your **stack**, **architecture**, and **workflow** — then tells you what's actually broken.
+
+## Quick Start
+
+```bash
+npx vibefixing doctor
+```
+
+Zero config. Auto-detects your stack and applies the right skills.
+
+### Example Output
+
+```
+ VibeFixing v0.1.0
+
+ Environment
+  ✔ Node.js 18+
+  ✔ Git repository detected
+  ✔ API key configured
+
+ Skills detected
+  ✔ TypeScript
+  ✔ Next.js (App Router)
+  ✔ OWASP Top 10
+
+ Project Health
+  Architecture   ███████████████░░░░░  78
+  Security       ████████████░░░░░░░░  64
+  Quality        ██████████████░░░░░░  72
+  ─────────────────────────────────────
+  Overall        █████████████░░░░░░░  71
+
+ Top recommendations
+  1. [high]   Direct DB access in API route handlers — extract to service layer
+  2. [high]   Missing CSRF protection on mutation endpoints
+  3. [medium] 'use client' applied to 12 components that use no browser APIs
+  4. [medium] Duplicated validation logic across 3 route handlers
+  5. [low]    next/image not used in 8 components with <img> tags
+```
+
+## Before / After
+
+Real output from an AI-generated Next.js codebase:
+
+| | Before | After diagnosis |
+|---|---|---|
+| Input validation | None | 6 injection vectors found |
+| DB access | Direct calls in route handlers | Service layer extraction recommended |
+| Business logic | Duplicated across 3 routes | Consolidation points identified |
+| Architecture score | — | 78 |
+| Security score | — | 64 |
+
+VibeFixing doesn't auto-rewrite your code. It **diagnoses** what's broken so you fix it right.
+
+## What It Checks
+
+| Category | Examples |
+|---|---|
+| **Security** | OWASP Top 10, hardcoded secrets, injection vectors, insecure defaults |
+| **Architecture** | Layer violations, circular dependencies, god objects, missing boundaries |
+| **Framework** | Next.js App Router misuse, NestJS DI anti-patterns, Express middleware gaps |
+| **Quality** | Dead code, duplicated logic, complexity hotspots, missing error handling |
+| **Language** | TypeScript strict mode gaps, Python type hints, Go error handling, Java null safety |
+
+## Built-in Skills
+
+VibeFixing uses **skills** — structured analysis packs that understand specific languages, frameworks, and architectures.
+
+| Category | Skills |
+|---|---|
+| Language | `typescript` `python` `go` `java` |
+| Framework | `nextjs` `react` `nestjs` `express` |
+| Security | `owasp-top10` `secrets-detection` |
+| Architecture | `clean-architecture` `ddd` |
+
+**12 built-in skills. Auto-detected. No config needed.**
+
+### Custom Skills
+
+Add your own skills for team-specific patterns:
+
+```yaml
+# .vibefixing/skills/my-team-rules.yml
+skillId: my-team-rules
+category: architecture
+name: My Team Rules
+version: "1.0.0"
+match:
+  files: ["*.ts"]
+rules:
+  - "All API handlers must use the withAuth wrapper"
+  - "Database access only through repository classes"
+antiPatterns:
+  - "Direct Prisma calls outside /repositories"
+  - "Missing error boundary in page components"
+```
+
+## Commands
+
+```bash
+vibefixing doctor            # Health check — architecture, security, quality scores
+vibefixing scan [path]       # Scan for issues using activated skills
+vibefixing skills list       # Show available and active skills
+vibefixing skills detect     # Detect which skills match your project
+vibefixing init              # Initialize config
+vibefixing upgrade           # Self-update
+```
+
+Output formats: `table` (default), `json`, `sarif` (GitHub Code Scanning).
+
+## GitHub Action
+
+Run VibeFixing on every PR:
+
+```yaml
+name: VibeFixing
+on: pull_request
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: open-neo/vibefixing-action@v1
+        with:
+          scan: 'true'
+          severity: 'medium'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+```
+
+PR comments show findings inline with severity and suggested fixes.
+
+<!-- TODO: PR comment screenshot -->
+
+## Supported Stacks
+
+**Languages**: TypeScript, Python, Go, Java
+
+**Frameworks**: Next.js, React, NestJS, Express
+
+**Architectures**: Clean Architecture, DDD, Layered, MVC
+
+More stacks added through [skill contributions](#contributing).
+
+## Open Source vs Cloud
+
+| | OSS (this repo) | Cloud |
+|---|---|---|
+| CLI | ✔ | ✔ |
+| Skills | ✔ | ✔ |
+| GitHub Action | ✔ | ✔ |
+| AI-powered review | — | ✔ |
+| Auto-fix engine | — | ✔ |
+| Patch ranking | — | ✔ |
+| Team dashboard | — | ✔ |
+| Repo-wide analytics | — | ✔ |
+| Policy management | — | ✔ |
+
+The CLI is free and open source (Apache 2.0).
+
+## Configuration
+
+VibeFixing works with zero config. For customization:
+
+```yaml
+# .vibefixing.yml
+version: "1"
+ai:
+  provider: anthropic
+skills:
+  enabled: [typescript, nextjs, owasp-top10]
+  custom: ./my-skills
+scan:
+  severity: medium
+  ignore: ["**/*.test.ts", "dist/**"]
+```
+
+## Contributing
+
+The easiest way to contribute is to add a new skill pack.
+
+1. Create a YAML file in `skills/<category>/`
+2. Define `skillId`, `match`, `rules`, and `antiPatterns`
+3. Submit a PR
+
+Look for issues labeled **`good first issue`** — scoped to single skill additions or rule improvements.
+
+```bash
+git clone https://github.com/open-neo/vibefixing.git
+cd vibefixing
+pnpm install
+pnpm build
+pnpm test
+```
+
+## License
+
+Apache 2.0

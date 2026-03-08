@@ -1,0 +1,9 @@
+version: "1"
+skills:
+  enabled:
+    - lang-typescript
+    - fw-nextjs
+    - sec-owasp-top10
+    - sec-secrets-detection
+scan:
+  severity: low

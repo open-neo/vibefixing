@@ -1,0 +1,28 @@
+skillId: lang-typescript
+category: language
+name: TypeScript Best Practices
+version: "1.0.0"
+language: typescript
+match:
+  files:
+    - "*.ts"
+    - "*.tsx"
+  dependencies:
+    - typescript
+rules:
+  - "Prefer strict TypeScript config (strict: true)"
+  - "Use explicit return types on exported functions"
+  - "Avoid any type - use unknown or proper types"
+  - "Use readonly for immutable data"
+  - "Prefer interface over type for object shapes"
+  - "Use discriminated unions for complex state"
+antiPatterns:
+  - "Using 'as any' type assertions"
+  - "Ignoring TypeScript errors with @ts-ignore"
+  - "Using non-null assertion operator excessively"
+  - "Missing null checks on optional chaining results"
+severity:
+  "Using 'as any' type assertions": high
+  "Ignoring TypeScript errors with @ts-ignore": high
+  "Using non-null assertion operator excessively": medium
+  "Missing null checks on optional chaining results": medium

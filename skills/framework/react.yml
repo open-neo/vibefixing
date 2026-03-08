@@ -1,0 +1,27 @@
+skillId: fw-react
+category: framework
+name: React Best Practices
+version: "1.0.0"
+language: typescript
+match:
+  files:
+    - "*.tsx"
+    - "*.jsx"
+  dependencies:
+    - react
+rules:
+  - "Use functional components with hooks"
+  - "Memoize expensive computations with useMemo"
+  - "Use useCallback for stable function references"
+  - "Keep components small and focused"
+  - "Lift state only when necessary"
+antiPatterns:
+  - "Using index as key in lists"
+  - "Mutating state directly"
+  - "Missing dependency arrays in useEffect"
+  - "Unnecessary re-renders from inline objects"
+severity:
+  "Using index as key in lists": medium
+  "Mutating state directly": high
+  "Missing dependency arrays in useEffect": high
+  "Unnecessary re-renders from inline objects": low

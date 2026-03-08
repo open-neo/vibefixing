@@ -1,0 +1,25 @@
+skillId: fw-nestjs
+category: framework
+name: NestJS Patterns
+version: "1.0.0"
+language: typescript
+match:
+  files:
+    - "*.ts"
+  dependencies:
+    - "@nestjs/core"
+rules:
+  - "Use dependency injection via constructors"
+  - "Implement proper DTOs with validation"
+  - "Use guards for authentication/authorization"
+  - "Handle exceptions with exception filters"
+antiPatterns:
+  - "Business logic in controllers"
+  - "Missing input validation on DTOs"
+  - "Hardcoded configuration values"
+  - "Missing error handling in services"
+severity:
+  "Business logic in controllers": medium
+  "Missing input validation on DTOs": high
+  "Hardcoded configuration values": high
+  "Missing error handling in services": medium

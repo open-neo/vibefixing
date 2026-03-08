@@ -1,0 +1,9 @@
+{
+  "name": "sample-project",
+  "version": "1.0.0",
+  "dependencies": {
+    "next": "16.0.0",
+    "react": "19.0.0",
+    "typescript": "5.7.0"
+  }
+}

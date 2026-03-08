@@ -1,0 +1,13 @@
+skillId: test-skill
+category: language
+name: Test Skill
+version: "1.0.0"
+language: typescript
+match:
+  files:
+    - "*.ts"
+rules:
+  - "Test rule 1"
+  - "Test rule 2"
+antiPatterns:
+  - "Test anti-pattern 1"

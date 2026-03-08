@@ -1,0 +1,35 @@
+skillId: sec-owasp-top10
+category: security
+name: OWASP Top 10
+version: "1.0.0"
+match:
+  files:
+    - "*.ts"
+    - "*.tsx"
+    - "*.js"
+    - "*.jsx"
+    - "*.py"
+    - "*.java"
+    - "*.go"
+rules:
+  - "Validate and sanitize all user inputs"
+  - "Use parameterized queries for database operations"
+  - "Implement proper authentication and session management"
+  - "Apply principle of least privilege"
+  - "Encrypt sensitive data at rest and in transit"
+  - "Keep dependencies up to date"
+  - "Log security-relevant events"
+antiPatterns:
+  - "SQL injection via string concatenation"
+  - "Cross-site scripting via innerHTML"
+  - "Hardcoded credentials or API keys"
+  - "Missing authentication on endpoints"
+  - "Insecure deserialization"
+  - "Using eval() or Function() constructor"
+severity:
+  "SQL injection via string concatenation": critical
+  "Cross-site scripting via innerHTML": critical
+  "Hardcoded credentials or API keys": critical
+  "Missing authentication on endpoints": high
+  "Insecure deserialization": high
+  "Using eval() or Function() constructor": high
