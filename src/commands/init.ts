@@ -18,7 +18,7 @@ export interface InitOptions {
 export async function runInit(options: InitOptions): Promise<{
   configPath: string;
   config: VibeFixingConfig;
-  detection: { languages: string[]; frameworks: string[]; packageManager: string };
+  detection: { languages: string[]; frameworks: string[]; packageManagers: string[] };
 }> {
   const rootPath = resolve(options.path);
   const configPath = resolve(rootPath, ".vibefixing.yml");
@@ -37,7 +37,7 @@ export async function runInit(options: InitOptions): Promise<{
   const detection = await detectProjectStack(rootPath);
   logger.info(`Detected languages: ${detection.languages.join(", ") || "none"}`);
   logger.info(`Detected frameworks: ${detection.frameworks.join(", ") || "none"}`);
-  logger.info(`Package manager: ${detection.packageManager}`);
+  logger.info(`Package managers: ${detection.packageManagers.join(", ")}`);
 
   // Resolve matching skills
   const registry = new SkillRegistry();

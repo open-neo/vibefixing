@@ -4,6 +4,22 @@ import type { VibeFixingConfig } from "../types/index.js";
 
 const CONFIG_NAME = "vibefixing";
 
+export const DEFAULT_IGNORE_PATTERNS = [
+  "node_modules",
+  ".git",
+  "dist",
+  "build",
+  ".next",
+  "__pycache__",
+  ".venv",
+  "venv",
+  "*.egg-info",
+  ".eggs",
+  ".mypy_cache",
+  ".pytest_cache",
+  ".tox",
+];
+
 const searchPlaces = [
   `.${CONFIG_NAME}.yml`,
   `.${CONFIG_NAME}.yaml`,
@@ -28,7 +44,7 @@ export const DEFAULT_CONFIG: VibeFixingConfig = {
   },
   scan: {
     severity: "low",
-    ignore: ["node_modules", ".git", "dist", "build", ".next"],
+    ignore: DEFAULT_IGNORE_PATTERNS,
   },
   fix: {
     mode: "suggest",

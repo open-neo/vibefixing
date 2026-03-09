@@ -1,0 +1,45 @@
+name: Publish to PyPI
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish-pypi:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write  # Trusted Publishing
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Node.js dependencies & build
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm build
+
+      - name: Sync version & prepare bundle
+        run: |
+          python pypi/sync_version.py
+          bash pypi/build_bundle.sh
+
+      - name: Build Python package
+        run: |
+          pip install build
+          cd pypi && python -m build
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: pypi/dist/

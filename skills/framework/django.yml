@@ -1,0 +1,28 @@
+skillId: fw-django
+category: framework
+name: Django Best Practices
+version: "1.0.0"
+language: python
+match:
+  files:
+    - "*.py"
+  dependencies:
+    - django
+rules:
+  - "Use class-based views for complex logic, function-based views for simple endpoints"
+  - "Always define explicit app_name in URLconf for namespace isolation"
+  - "Use Django ORM querysets lazily; avoid N+1 queries with select_related / prefetch_related"
+  - "Keep business logic out of views — use services or model methods"
+  - "Apply Django security middleware (CSRF, clickjacking, HSTS)"
+antiPatterns:
+  - "Raw SQL without parameterised queries"
+  - "SECRET_KEY committed to version control"
+  - "DEBUG = True in production settings"
+  - "Missing CSRF protection on state-changing endpoints"
+  - "Using .all() without pagination on large querysets"
+severity:
+  "Raw SQL without parameterised queries": high
+  "SECRET_KEY committed to version control": critical
+  "DEBUG = True in production settings": critical
+  "Missing CSRF protection on state-changing endpoints": high
+  "Using .all() without pagination on large querysets": medium

@@ -1,0 +1,40 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "vibefixing"
+version = "0.2.0"
+description = "AI-powered code analysis and auto-fixing CLI tool"
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.8"
+authors = [
+  { name = "open-neo" },
+]
+keywords = ["cli", "code-analysis", "ai", "security", "linting", "auto-fix"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Software Development :: Quality Assurance",
+]
+
+[project.urls]
+Homepage = "https://github.com/open-neo/vibefixing"
+Repository = "https://github.com/open-neo/vibefixing"
+Issues = "https://github.com/open-neo/vibefixing/issues"
+
+[project.scripts]
+vibefixing = "vibefixing_wrapper.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["vibefixing_wrapper"]

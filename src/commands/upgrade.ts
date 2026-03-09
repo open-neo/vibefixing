@@ -37,6 +37,13 @@ export async function runUpgrade(options: UpgradeOptions): Promise<{
   }
 
   // Perform upgrade
+  if (process.env.VIBEFIXING_INSTALLED_VIA === "pip") {
+    logger.info(
+      "\nInstalled via pip. Run the following to upgrade:\n  pip install --upgrade vibefixing"
+    );
+    return { currentVersion, latestVersion, upgraded: false };
+  }
+
   logger.info(`\nUpgrading ${currentVersion} → ${latestVersion}...`);
 
   try {

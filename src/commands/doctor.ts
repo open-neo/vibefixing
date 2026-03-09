@@ -5,6 +5,7 @@ import { SkillRegistry } from "../skills/registry.js";
 import { detectProjectStack } from "../skills/detector.js";
 import { resolveSkills } from "../engine/skill-resolver.js";
 import { scanProject } from "../engine/scanner.js";
+import { fileExists } from "../utils/file.js";
 import { logger } from "../utils/logger.js";
 import { formatDoctorReport } from "../utils/output.js";
 import type {
@@ -42,6 +43,13 @@ export async function runDoctor(
   // Check SKILLS
   checks.push(await checkSkills());
 
+  // Check Python (only if Python project files exist)
+  const rootPath = resolve(options.path ?? ".");
+  if (await isPythonProject(rootPath)) {
+    checks.push(checkPython());
+    checks.push(checkPip());
+  }
+
   // Check disk space
   checks.push(checkDiskSpace());
 
@@ -50,7 +58,6 @@ export async function runDoctor(
   );
 
   // Build enhanced report data
-  const rootPath = resolve(options.path ?? ".");
   const detectedSkills = await detectSkillsForProject(rootPath);
   const { health, recommendations } = await computeHealthAndRecommendations(
     rootPath
@@ -325,6 +332,75 @@ async function checkSkills(): Promise<DoctorCheck> {
       name: "SKILLS Integrity",
       status: "fail",
       details: "Failed to load skills",
+    };
+  }
+}
+
+async function isPythonProject(rootPath: string): Promise<boolean> {
+  const markers = [
+    "requirements.txt",
+    "pyproject.toml",
+    "setup.py",
+    "setup.cfg",
+    "Pipfile",
+    "poetry.lock",
+  ];
+  for (const marker of markers) {
+    if (await fileExists(resolve(rootPath, marker))) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function checkPython(): DoctorCheck {
+  try {
+    const version = execSync("python3 --version", {
+      encoding: "utf-8",
+    }).trim();
+    const match = version.match(/Python (\d+)\.(\d+)/);
+    if (match) {
+      const major = parseInt(match[1], 10);
+      const minor = parseInt(match[2], 10);
+      if (major > 3 || (major === 3 && minor >= 8)) {
+        return {
+          name: "Python",
+          status: "pass",
+          details: version.replace("Python ", ""),
+        };
+      }
+      return {
+        name: "Python",
+        status: "warn",
+        details: `${version} (requires >= 3.8)`,
+      };
+    }
+    return { name: "Python", status: "pass", details: version };
+  } catch {
+    return {
+      name: "Python",
+      status: "warn",
+      details: "python3 not found",
+    };
+  }
+}
+
+function checkPip(): DoctorCheck {
+  try {
+    const version = execSync("pip3 --version", {
+      encoding: "utf-8",
+    }).trim();
+    const match = version.match(/pip ([\d.]+)/);
+    return {
+      name: "pip",
+      status: "pass",
+      details: match ? match[1] : version,
+    };
+  } catch {
+    return {
+      name: "pip",
+      status: "warn",
+      details: "pip3 not found",
     };
   }
 }

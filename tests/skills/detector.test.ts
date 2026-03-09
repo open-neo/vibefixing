@@ -26,8 +26,9 @@ describe("detectProjectStack", () => {
     expect(result.frameworks).toEqual([]);
   });
 
-  it("detects package manager", async () => {
+  it("detects package managers", async () => {
     const result = await detectProjectStack(FIXTURES_DIR);
-    expect(typeof result.packageManager).toBe("string");
+    expect(Array.isArray(result.packageManagers)).toBe(true);
+    expect(result.packageManagers.length).toBeGreaterThan(0);
   });
 });

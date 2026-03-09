@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { DEFAULT_IGNORE_PATTERNS } from "../config/config.js";
 
 export const severitySchema = z.enum([
   "critical",
@@ -60,7 +61,7 @@ export const configSchema = z.object({
   scan: z
     .object({
       severity: severitySchema.default("low"),
-      ignore: z.array(z.string()).default(["node_modules", ".git", "dist", "build", ".next"]),
+      ignore: z.array(z.string()).default(DEFAULT_IGNORE_PATTERNS),
       maxFiles: z.number().positive().optional(),
     })
     .default({}),

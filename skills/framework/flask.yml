@@ -1,0 +1,26 @@
+skillId: fw-flask
+category: framework
+name: Flask Best Practices
+version: "1.0.0"
+language: python
+match:
+  files:
+    - "*.py"
+  dependencies:
+    - flask
+rules:
+  - "Use application factory pattern (create_app) for testability"
+  - "Register blueprints for modular route organisation"
+  - "Validate all request inputs with a schema library (e.g. marshmallow, pydantic)"
+  - "Use Flask-Talisman or equivalent for security headers"
+  - "Configure proper error handlers for 4xx/5xx responses"
+antiPatterns:
+  - "Hardcoded secret key in source code"
+  - "Running app.run(debug=True) in production"
+  - "Missing input validation on request data"
+  - "Storing sensitive data in client-side sessions without encryption"
+severity:
+  "Hardcoded secret key in source code": critical
+  "Running app.run(debug=True) in production": high
+  "Missing input validation on request data": medium
+  "Storing sensitive data in client-side sessions without encryption": high
