@@ -1,0 +1,27 @@
+skillId: infra-terraform
+category: infrastructure
+name: Terraform Best Practices
+version: "1.0.0"
+match:
+  files:
+    - "*.tf"
+    - "*.tfvars"
+rules:
+  - "Use reusable modules for common infrastructure patterns"
+  - "Enable state locking with a remote backend"
+  - "Add variable validation blocks for input constraints"
+  - "Follow consistent resource naming conventions"
+  - "Always run plan before apply in CI/CD pipelines"
+  - "Pin provider and module versions explicitly"
+antiPatterns:
+  - "Hardcoded values instead of variables or locals"
+  - "Using local state files in production environments"
+  - "Missing lifecycle blocks for critical resources"
+  - "No remote backend configured for state storage"
+  - "Unpinned provider versions causing drift"
+severity:
+  "Hardcoded values instead of variables or locals": medium
+  "Using local state files in production environments": critical
+  "Missing lifecycle blocks for critical resources": high
+  "No remote backend configured for state storage": critical
+  "Unpinned provider versions causing drift": high

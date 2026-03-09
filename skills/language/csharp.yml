@@ -1,0 +1,26 @@
+skillId: lang-csharp
+category: language
+name: C# Best Practices
+version: "1.0.0"
+language: csharp
+match:
+  files:
+    - "*.cs"
+  dependencies: []
+rules:
+  - "Use async/await consistently and avoid blocking on async code"
+  - "Enable nullable reference types and handle nullability explicitly"
+  - "Use LINQ for collection transformations instead of manual loops"
+  - "Implement IDisposable and use 'using' statements for resource management"
+  - "Prefer records or readonly structs for immutable data"
+  - "Use dependency injection over static service locators"
+antiPatterns:
+  - "Ignoring Task results (fire-and-forget without explicit intent)"
+  - "Catching generic Exception without specific handling"
+  - "Using mutable static fields for shared state"
+  - "Calling .Result or .Wait() on async Tasks"
+severity:
+  "Ignoring Task results (fire-and-forget without explicit intent)": high
+  "Catching generic Exception without specific handling": medium
+  "Using mutable static fields for shared state": high
+  "Calling .Result or .Wait() on async Tasks": high

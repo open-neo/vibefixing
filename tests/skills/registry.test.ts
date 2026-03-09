@@ -99,4 +99,32 @@ describe("SkillRegistry", () => {
     const all = registry.getAll();
     expect(all.length).toBe(registry.count());
   });
+
+  it("matches infrastructure skills based on detected infrastructure", async () => {
+    await registry.loadBuiltinSkills();
+    const matched = registry.matchSkills([], [], ["docker"], []);
+    expect(matched.some((s) => s.skillId === "infra-docker")).toBe(true);
+  });
+
+  it("matches database skills based on detected databases", async () => {
+    await registry.loadBuiltinSkills();
+    const matched = registry.matchSkills([], [], [], ["postgresql"]);
+    expect(matched.some((s) => s.skillId === "db-postgresql")).toBe(true);
+  });
+
+  it("matches infrastructure and database skills together", async () => {
+    await registry.loadBuiltinSkills();
+    const matched = registry.matchSkills(
+      ["typescript"],
+      ["nextjs"],
+      ["docker", "github-actions"],
+      ["postgresql", "redis"]
+    );
+    expect(matched.some((s) => s.skillId === "lang-typescript")).toBe(true);
+    expect(matched.some((s) => s.skillId === "fw-nextjs")).toBe(true);
+    expect(matched.some((s) => s.skillId === "infra-docker")).toBe(true);
+    expect(matched.some((s) => s.skillId === "infra-github-actions")).toBe(true);
+    expect(matched.some((s) => s.skillId === "db-postgresql")).toBe(true);
+    expect(matched.some((s) => s.skillId === "db-redis")).toBe(true);
+  });
 });

@@ -1,0 +1,28 @@
+skillId: lang-rust
+category: language
+name: Rust Best Practices
+version: "1.0.0"
+language: rust
+match:
+  files:
+    - "*.rs"
+  dependencies: []
+rules:
+  - "Use ownership and borrowing correctly to avoid unnecessary cloning"
+  - "Prefer Result and Option for error handling over panics"
+  - "Avoid unwrap() in production code - use expect() or proper error handling"
+  - "Use iterators and combinators instead of manual loops where appropriate"
+  - "Leverage the type system to make invalid states unrepresentable"
+  - "Run clippy and address all warnings before merging"
+antiPatterns:
+  - "Excessive use of unwrap() without error context"
+  - "Unnecessary unsafe blocks without safety documentation"
+  - "Ignoring clippy warnings and lints"
+  - "Cloning data instead of borrowing when ownership is not needed"
+  - "Using String when &str would suffice"
+severity:
+  "Excessive use of unwrap() without error context": high
+  "Unnecessary unsafe blocks without safety documentation": high
+  "Ignoring clippy warnings and lints": medium
+  "Cloning data instead of borrowing when ownership is not needed": medium
+  "Using String when &str would suffice": low

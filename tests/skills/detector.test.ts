@@ -24,11 +24,23 @@ describe("detectProjectStack", () => {
     const result = await detectProjectStack("/tmp");
     expect(result.languages).toEqual([]);
     expect(result.frameworks).toEqual([]);
+    expect(result.infrastructure).toEqual([]);
+    expect(result.databases).toEqual([]);
   });
 
   it("detects package managers", async () => {
     const result = await detectProjectStack(FIXTURES_DIR);
     expect(Array.isArray(result.packageManagers)).toBe(true);
     expect(result.packageManagers.length).toBeGreaterThan(0);
+  });
+
+  it("returns infrastructure as an array", async () => {
+    const result = await detectProjectStack(FIXTURES_DIR);
+    expect(Array.isArray(result.infrastructure)).toBe(true);
+  });
+
+  it("returns databases as an array", async () => {
+    const result = await detectProjectStack(FIXTURES_DIR);
+    expect(Array.isArray(result.databases)).toBe(true);
   });
 });

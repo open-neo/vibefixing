@@ -85,7 +85,9 @@ async function detectSkillsForProject(
 
     const matchedSkills = registry.matchSkills(
       detection.languages,
-      detection.frameworks
+      detection.frameworks,
+      detection.infrastructure,
+      detection.databases
     );
 
     const allSkills = registry.getAll();
@@ -158,7 +160,9 @@ function computeScores(
         (s) =>
           s.category === "language" ||
           s.category === "framework" ||
-          s.category === "process"
+          s.category === "process" ||
+          s.category === "infrastructure" ||
+          s.category === "database"
       )
       .map((s) => s.skillId)
   );

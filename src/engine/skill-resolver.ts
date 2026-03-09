@@ -20,7 +20,9 @@ export async function resolveSkills(
     // Auto-detect and match skills
     resolvedSkills = registry.matchSkills(
       detection.languages,
-      detection.frameworks
+      detection.frameworks,
+      detection.infrastructure,
+      detection.databases
     );
   }
 
@@ -33,6 +35,8 @@ export async function resolveSkills(
     projectPath: rootPath,
     detectedLanguages: detection.languages,
     detectedFrameworks: detection.frameworks,
+    detectedInfrastructure: detection.infrastructure,
+    detectedDatabases: detection.databases,
     resolvedSkills: resolvedSkills.map((s) => s.skillId),
     matchedFiles,
     createdAt: new Date().toISOString(),

@@ -1,0 +1,27 @@
+skillId: infra-kubernetes
+category: infrastructure
+name: Kubernetes Best Practices
+version: "1.0.0"
+match:
+  files:
+    - "*.yaml"
+    - "*.yml"
+rules:
+  - "Set resource requests and limits for all containers"
+  - "Configure readiness and liveness probes for all pods"
+  - "Use namespaces to isolate workloads and environments"
+  - "Implement RBAC for cluster access control"
+  - "Define network policies to restrict pod-to-pod traffic"
+  - "Use pod disruption budgets for high availability"
+antiPatterns:
+  - "Running containers as root in pods"
+  - "Enabling hostNetwork without justification"
+  - "Running privileged containers in production"
+  - "Missing resource limits causing noisy neighbor issues"
+  - "Missing readiness or liveness probes on deployments"
+severity:
+  "Running containers as root in pods": critical
+  "Enabling hostNetwork without justification": high
+  "Running privileged containers in production": critical
+  "Missing resource limits causing noisy neighbor issues": high
+  "Missing readiness or liveness probes on deployments": high

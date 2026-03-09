@@ -1,0 +1,31 @@
+skillId: fw-vue
+category: framework
+name: Vue.js Patterns
+version: "1.0.0"
+language: typescript
+match:
+  files:
+    - "*.vue"
+    - "*.ts"
+    - "*.js"
+  dependencies:
+    - vue
+rules:
+  - "Use Composition API with script setup for new components"
+  - "Use ref and reactive for state, computed for derived values"
+  - "Implement proper v-model with defineModel or emit pattern"
+  - "Use provide/inject for deep component communication"
+  - "Define props with TypeScript types using defineProps"
+  - "Use watchers sparingly and prefer computed properties"
+antiPatterns:
+  - "Direct DOM manipulation instead of template refs"
+  - "Mutating props directly in child components"
+  - "Missing key attribute on v-for iterations"
+  - "Using Options API in new Composition API codebases"
+  - "Overusing watchers where computed would suffice"
+severity:
+  "Direct DOM manipulation instead of template refs": medium
+  "Mutating props directly in child components": high
+  "Missing key attribute on v-for iterations": medium
+  "Using Options API in new Composition API codebases": low
+  "Overusing watchers where computed would suffice": low

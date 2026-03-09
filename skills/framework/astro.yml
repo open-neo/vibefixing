@@ -1,0 +1,30 @@
+skillId: fw-astro
+category: framework
+name: Astro Patterns
+version: "1.0.0"
+language: typescript
+match:
+  files:
+    - "*.astro"
+    - "*.ts"
+  dependencies:
+    - astro
+rules:
+  - "Follow island architecture with interactive components only where needed"
+  - "Use content collections with schemas for structured content"
+  - "Ship zero JavaScript by default, add interactivity selectively"
+  - "Apply partial hydration with appropriate client directives"
+  - "Prefer static generation over server-side rendering when possible"
+  - "Use Astro components for layout and static sections"
+antiPatterns:
+  - "Adding unnecessary client directives to non-interactive components"
+  - "Creating large client-side bundles that defeat the purpose of Astro"
+  - "Ignoring static generation in favor of runtime rendering"
+  - "Using client:load when client:visible or client:idle would suffice"
+  - "Embedding dynamic logic in Astro frontmatter that belongs in API routes"
+severity:
+  "Adding unnecessary client directives to non-interactive components": medium
+  "Creating large client-side bundles that defeat the purpose of Astro": high
+  "Ignoring static generation in favor of runtime rendering": medium
+  "Using client:load when client:visible or client:idle would suffice": low
+  "Embedding dynamic logic in Astro frontmatter that belongs in API routes": medium

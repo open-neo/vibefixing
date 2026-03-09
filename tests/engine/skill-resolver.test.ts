@@ -54,4 +54,14 @@ describe("skill-resolver", () => {
     expect(resolution.createdAt).toBeDefined();
     expect(() => new Date(resolution.createdAt)).not.toThrow();
   });
+
+  it("includes detected infrastructure in resolution", async () => {
+    const resolution = await resolveSkills(FIXTURES_DIR, registry);
+    expect(Array.isArray(resolution.detectedInfrastructure)).toBe(true);
+  });
+
+  it("includes detected databases in resolution", async () => {
+    const resolution = await resolveSkills(FIXTURES_DIR, registry);
+    expect(Array.isArray(resolution.detectedDatabases)).toBe(true);
+  });
 });

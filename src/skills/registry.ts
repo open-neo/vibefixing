@@ -63,7 +63,9 @@ export class SkillRegistry {
 
   matchSkills(
     languages: string[],
-    frameworks: string[]
+    frameworks: string[],
+    infrastructure: string[] = [],
+    databases: string[] = []
   ): Skill[] {
     const matched: Skill[] = [];
 
@@ -78,6 +80,24 @@ export class SkillRegistry {
       if (frameworks.some((fw) => skill.skillId.includes(fw))) {
         matched.push(skill);
         continue;
+      }
+
+      // Match infrastructure skills by infra- prefix
+      if (skill.skillId.startsWith("infra-")) {
+        const infraName = skill.skillId.replace("infra-", "");
+        if (infrastructure.includes(infraName)) {
+          matched.push(skill);
+          continue;
+        }
+      }
+
+      // Match database skills by db- prefix
+      if (skill.skillId.startsWith("db-")) {
+        const dbName = skill.skillId.replace("db-", "");
+        if (databases.includes(dbName)) {
+          matched.push(skill);
+          continue;
+        }
       }
 
       // Security and architecture skills always match

@@ -1,0 +1,29 @@
+skillId: lang-scala
+category: language
+name: Scala Best Practices
+version: "1.0.0"
+language: scala
+match:
+  files:
+    - "*.scala"
+    - "*.sc"
+  dependencies: []
+rules:
+  - "Prefer immutable values (val) over mutable variables (var)"
+  - "Use pattern matching for complex conditional logic and type decomposition"
+  - "Use for-comprehensions for composing monadic operations"
+  - "Leverage the type system with sealed traits and algebraic data types"
+  - "Use type classes and implicits (or given/using in Scala 3) for ad-hoc polymorphism"
+  - "Prefer Option, Either, and Try over null and exceptions"
+antiPatterns:
+  - "Using mutable vars when vals would suffice"
+  - "Using null instead of Option for absent values"
+  - "Leaving Future failures unhandled without recovery"
+  - "Blocking on Futures with Await.result in async contexts"
+  - "Overusing implicit conversions leading to confusing code"
+severity:
+  "Using mutable vars when vals would suffice": medium
+  "Using null instead of Option for absent values": high
+  "Leaving Future failures unhandled without recovery": high
+  "Blocking on Futures with Await.result in async contexts": high
+  "Overusing implicit conversions leading to confusing code": medium

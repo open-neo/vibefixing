@@ -1,0 +1,28 @@
+skillId: infra-docker
+category: infrastructure
+name: Docker Best Practices
+version: "1.0.0"
+match:
+  files:
+    - "Dockerfile"
+    - "docker-compose.yml"
+    - "docker-compose.yaml"
+rules:
+  - "Use multi-stage builds to reduce final image size"
+  - "Run containers as a non-root user"
+  - "Use minimal base images such as alpine or distroless"
+  - "Optimize layer caching by ordering instructions properly"
+  - "Define health checks for all services"
+  - "Include a .dockerignore file to exclude unnecessary files"
+antiPatterns:
+  - "Running containers as root user"
+  - "Using the latest tag for base images"
+  - "Passing secrets through build arguments"
+  - "Producing excessively large image sizes"
+  - "Missing .dockerignore allowing unnecessary files in context"
+severity:
+  "Running containers as root user": critical
+  "Using the latest tag for base images": high
+  "Passing secrets through build arguments": critical
+  "Producing excessively large image sizes": medium
+  "Missing .dockerignore allowing unnecessary files in context": medium

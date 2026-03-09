@@ -17,7 +17,9 @@ export type SkillCategory =
   | "framework"
   | "architecture"
   | "process"
-  | "security";
+  | "security"
+  | "infrastructure"
+  | "database";
 
 export interface Finding {
   id: string;
@@ -94,6 +96,8 @@ export interface SkillResolution {
   projectPath: string;
   detectedLanguages: string[];
   detectedFrameworks: string[];
+  detectedInfrastructure: string[];
+  detectedDatabases: string[];
   resolvedSkills: string[];
   matchedFiles: Record<string, string[]>;
   createdAt: string;

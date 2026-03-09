@@ -1,0 +1,31 @@
+skillId: fw-sveltekit
+category: framework
+name: SvelteKit Patterns
+version: "1.0.0"
+language: typescript
+match:
+  files:
+    - "*.svelte"
+    - "*.ts"
+  dependencies:
+    - svelte
+    - "@sveltejs/kit"
+rules:
+  - "Use load functions for data fetching in +page.ts or +page.server.ts"
+  - "Implement form actions for mutations with progressive enhancement"
+  - "Design for progressive enhancement with server-first approach"
+  - "Use Svelte stores for shared client-side state"
+  - "Define error pages with +error.svelte at appropriate levels"
+  - "Use layout load functions for shared data across routes"
+antiPatterns:
+  - "Client-side fetching when server-side load functions are available"
+  - "Overusing mutable stores for state that belongs in load functions"
+  - "Missing +error.svelte pages for error handling"
+  - "Bypassing form actions with client-side fetch for mutations"
+  - "Importing environment variables without $env modules"
+severity:
+  "Client-side fetching when server-side load functions are available": medium
+  "Overusing mutable stores for state that belongs in load functions": medium
+  "Missing +error.svelte pages for error handling": low
+  "Bypassing form actions with client-side fetch for mutations": medium
+  "Importing environment variables without $env modules": high

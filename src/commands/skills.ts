@@ -108,11 +108,15 @@ async function handleDetect(
   const detection = await detectProjectStack(path);
   const matchedSkills = registry.matchSkills(
     detection.languages,
-    detection.frameworks
+    detection.frameworks,
+    detection.infrastructure,
+    detection.databases
   );
 
   logger.info(`Detected languages: ${detection.languages.join(", ") || "none"}`);
   logger.info(`Detected frameworks: ${detection.frameworks.join(", ") || "none"}`);
+  logger.info(`Detected infrastructure: ${detection.infrastructure.join(", ") || "none"}`);
+  logger.info(`Detected databases: ${detection.databases.join(", ") || "none"}`);
   logger.info(`Matched skills: ${matchedSkills.map((s) => s.skillId).join(", ") || "none"}`);
 
   const output = matchedSkills.map((s) => s.skillId).join(", ");

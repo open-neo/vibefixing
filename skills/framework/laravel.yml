@@ -1,0 +1,29 @@
+skillId: fw-laravel
+category: framework
+name: Laravel Patterns
+version: "1.0.0"
+language: php
+match:
+  files:
+    - "*.php"
+  dependencies:
+    - "laravel/framework"
+rules:
+  - "Follow Eloquent conventions for models and relationships"
+  - "Use Form Request classes for input validation"
+  - "Apply middleware for cross-cutting concerns"
+  - "Register bindings and services in service providers"
+  - "Use resource controllers and API resources for REST endpoints"
+  - "Leverage Laravel collections for data transformation"
+antiPatterns:
+  - "Placing business logic directly in controllers"
+  - "Using raw queries instead of Eloquent or Query Builder"
+  - "Mass assignment vulnerability from unguarded models"
+  - "Overusing facades instead of dependency injection"
+  - "Missing authorization checks in controller actions"
+severity:
+  "Placing business logic directly in controllers": medium
+  "Using raw queries instead of Eloquent or Query Builder": medium
+  "Mass assignment vulnerability from unguarded models": high
+  "Overusing facades instead of dependency injection": low
+  "Missing authorization checks in controller actions": high

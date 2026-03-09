@@ -1,0 +1,27 @@
+skillId: lang-kotlin
+category: language
+name: Kotlin Best Practices
+version: "1.0.0"
+language: kotlin
+match:
+  files:
+    - "*.kt"
+    - "*.kts"
+  dependencies: []
+rules:
+  - "Leverage Kotlin null safety - use nullable types and safe calls"
+  - "Use data classes for value objects and DTOs"
+  - "Prefer coroutines with structured concurrency for async work"
+  - "Use sealed classes and when expressions for exhaustive state handling"
+  - "Prefer extension functions over utility classes"
+  - "Use scope functions (let, run, apply, also) idiomatically"
+antiPatterns:
+  - "Overusing the !! (non-null assertion) operator"
+  - "Using mutable global state or top-level vars"
+  - "Blocking the coroutine scope with Thread.sleep or runBlocking in production"
+  - "Using platform types without explicit null checks"
+severity:
+  "Overusing the !! (non-null assertion) operator": high
+  "Using mutable global state or top-level vars": medium
+  "Blocking the coroutine scope with Thread.sleep or runBlocking in production": high
+  "Using platform types without explicit null checks": medium

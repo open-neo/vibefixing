@@ -1,0 +1,29 @@
+skillId: fw-spring
+category: framework
+name: Spring Boot Patterns
+version: "1.0.0"
+language: java
+match:
+  files:
+    - "*.java"
+  dependencies:
+    - spring-boot-starter
+rules:
+  - "Use constructor injection for dependency injection"
+  - "Apply proper stereotype annotations (@Service, @Repository, @Controller)"
+  - "Implement global exception handling with @ControllerAdvice"
+  - "Use DTOs to decouple API contracts from domain entities"
+  - "Follow layered architecture: Controller, Service, Repository"
+  - "Use Spring profiles for environment-specific configuration"
+antiPatterns:
+  - "Field injection with @Autowired instead of constructor injection"
+  - "Catching generic Exception instead of specific exception types"
+  - "Placing business logic in controllers instead of services"
+  - "Circular dependencies between beans"
+  - "Exposing JPA entities directly in API responses"
+severity:
+  "Field injection with @Autowired instead of constructor injection": medium
+  "Catching generic Exception instead of specific exception types": medium
+  "Placing business logic in controllers instead of services": medium
+  "Circular dependencies between beans": high
+  "Exposing JPA entities directly in API responses": high

@@ -1,0 +1,26 @@
+skillId: infra-github-actions
+category: infrastructure
+name: GitHub Actions Best Practices
+version: "1.0.0"
+match:
+  files:
+    - ".github/workflows/*.yml"
+rules:
+  - "Pin action versions to specific commit SHAs"
+  - "Use OIDC for cloud provider authentication"
+  - "Apply least privilege permissions at job level"
+  - "Extract common logic into reusable workflows"
+  - "Manage build artifacts with retention policies"
+  - "Set timeout-minutes on all jobs to prevent runaway workflows"
+antiPatterns:
+  - "Referencing actions with @main or @master instead of SHA"
+  - "Using excessive permissions such as contents write at workflow level"
+  - "Leaking secrets in workflow logs via echo or debug output"
+  - "Missing timeout-minutes allowing jobs to run indefinitely"
+  - "Using pull_request_target without restricting untrusted code"
+severity:
+  "Referencing actions with @main or @master instead of SHA": high
+  "Using excessive permissions such as contents write at workflow level": high
+  "Leaking secrets in workflow logs via echo or debug output": critical
+  "Missing timeout-minutes allowing jobs to run indefinitely": medium
+  "Using pull_request_target without restricting untrusted code": critical

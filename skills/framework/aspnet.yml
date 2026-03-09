@@ -1,0 +1,27 @@
+skillId: fw-aspnet
+category: framework
+name: ASP.NET Core Patterns
+version: "1.0.0"
+language: csharp
+match:
+  files:
+    - "*.cs"
+rules:
+  - "Configure middleware pipeline in correct order"
+  - "Use built-in dependency injection for service registration"
+  - "Apply model validation with data annotations or FluentValidation"
+  - "Use async/await consistently in controllers and services"
+  - "Implement proper options pattern for configuration"
+  - "Use action filters for cross-cutting concerns"
+antiPatterns:
+  - "Using sync-over-async patterns with .Result or .Wait()"
+  - "Catching generic exceptions instead of specific exception types"
+  - "Using service locator pattern instead of constructor injection"
+  - "Missing CORS configuration for API endpoints"
+  - "Exposing database entities directly in API responses"
+severity:
+  "Using sync-over-async patterns with .Result or .Wait()": high
+  "Catching generic exceptions instead of specific exception types": medium
+  "Using service locator pattern instead of constructor injection": medium
+  "Missing CORS configuration for API endpoints": high
+  "Exposing database entities directly in API responses": medium

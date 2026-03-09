@@ -1,0 +1,29 @@
+skillId: lang-elixir
+category: language
+name: Elixir Best Practices
+version: "1.0.0"
+language: elixir
+match:
+  files:
+    - "*.ex"
+    - "*.exs"
+  dependencies: []
+rules:
+  - "Use pattern matching in function heads instead of conditional logic"
+  - "Use the pipe operator (|>) for data transformation pipelines"
+  - "Design supervision trees to isolate and recover from failures"
+  - "Use GenServer for stateful processes and follow OTP conventions"
+  - "Write typespecs (@spec) for public functions"
+  - "Prefer immutable data transformations over side effects"
+antiPatterns:
+  - "Storing large or unbounded state in GenServer processes"
+  - "Ignoring OTP conventions and building custom process management"
+  - "Using bare try/rescue instead of letting supervisors handle failures"
+  - "Overusing Agent when GenServer is more appropriate"
+  - "Sending large messages between processes instead of passing references"
+severity:
+  "Storing large or unbounded state in GenServer processes": high
+  "Ignoring OTP conventions and building custom process management": high
+  "Using bare try/rescue instead of letting supervisors handle failures": medium
+  "Overusing Agent when GenServer is more appropriate": low
+  "Sending large messages between processes instead of passing references": medium

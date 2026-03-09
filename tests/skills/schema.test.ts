@@ -95,6 +95,40 @@ describe("skillSchema", () => {
     expect(result.success).toBe(false);
   });
 
+  it("accepts infrastructure category", () => {
+    const skill = {
+      skillId: "infra-docker",
+      category: "infrastructure",
+      name: "Docker Best Practices",
+      version: "1.0.0",
+      match: { files: ["Dockerfile"] },
+      rules: ["Use multi-stage builds"],
+    };
+
+    const result = skillSchema.safeParse(skill);
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.category).toBe("infrastructure");
+    }
+  });
+
+  it("accepts database category", () => {
+    const skill = {
+      skillId: "db-postgresql",
+      category: "database",
+      name: "PostgreSQL Best Practices",
+      version: "1.0.0",
+      match: { files: ["*.sql"] },
+      rules: ["Use parameterized queries"],
+    };
+
+    const result = skillSchema.safeParse(skill);
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.category).toBe("database");
+    }
+  });
+
   it("applies default empty array for antiPatterns", () => {
     const skill = {
       skillId: "test-skill",

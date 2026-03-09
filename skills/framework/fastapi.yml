@@ -1,0 +1,29 @@
+skillId: fw-fastapi
+category: framework
+name: FastAPI Patterns
+version: "1.0.0"
+language: python
+match:
+  files:
+    - "*.py"
+  dependencies:
+    - fastapi
+rules:
+  - "Use Pydantic models for request and response validation"
+  - "Leverage FastAPI dependency injection for shared logic"
+  - "Use async handlers for I/O-bound operations"
+  - "Return proper HTTP status codes with response models"
+  - "Organize routes with APIRouter for modular structure"
+  - "Use BackgroundTasks for non-blocking operations"
+antiPatterns:
+  - "Running sync operations inside async endpoint handlers"
+  - "Missing Pydantic validation on request bodies"
+  - "Bare exception handling without specific error types"
+  - "Hardcoding configuration values instead of using settings"
+  - "Returning raw dicts instead of typed response models"
+severity:
+  "Running sync operations inside async endpoint handlers": high
+  "Missing Pydantic validation on request bodies": medium
+  "Bare exception handling without specific error types": medium
+  "Hardcoding configuration values instead of using settings": low
+  "Returning raw dicts instead of typed response models": low

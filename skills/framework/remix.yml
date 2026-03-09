@@ -1,0 +1,30 @@
+skillId: fw-remix
+category: framework
+name: Remix Patterns
+version: "1.0.0"
+language: typescript
+match:
+  files:
+    - "*.ts"
+    - "*.tsx"
+  dependencies:
+    - "@remix-run/react"
+rules:
+  - "Use loader functions for GET data fetching on the server"
+  - "Use action functions for form submissions and mutations"
+  - "Implement error boundaries at route level with ErrorBoundary exports"
+  - "Use native HTML forms with progressive enhancement"
+  - "Leverage nested routes for layout composition"
+  - "Use defer and Await for streaming non-critical data"
+antiPatterns:
+  - "Client-side state management for data available via loaders"
+  - "Missing ErrorBoundary exports on route modules"
+  - "Ignoring automatic revalidation after actions"
+  - "Using useEffect for data fetching instead of loaders"
+  - "Bypassing Remix form handling with manual fetch calls"
+severity:
+  "Client-side state management for data available via loaders": medium
+  "Missing ErrorBoundary exports on route modules": low
+  "Ignoring automatic revalidation after actions": medium
+  "Using useEffect for data fetching instead of loaders": high
+  "Bypassing Remix form handling with manual fetch calls": medium

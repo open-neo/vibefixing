@@ -1,0 +1,30 @@
+skillId: fw-angular
+category: framework
+name: Angular Patterns
+version: "1.0.0"
+language: typescript
+match:
+  files:
+    - "*.ts"
+    - "*.html"
+  dependencies:
+    - "@angular/core"
+rules:
+  - "Use dependency injection via constructor or inject function"
+  - "Prefer reactive forms over template-driven forms"
+  - "Use standalone components for new development"
+  - "Apply OnPush change detection strategy for performance"
+  - "Encapsulate business logic in services, not components"
+  - "Use Angular signals for reactive state management"
+antiPatterns:
+  - "Manual subscriptions without unsubscribe or takeUntilDestroyed"
+  - "Using any type in templates and component bindings"
+  - "Placing business logic in components instead of services"
+  - "Nested subscriptions instead of RxJS operators"
+  - "Ignoring lazy loading for feature modules"
+severity:
+  "Manual subscriptions without unsubscribe or takeUntilDestroyed": high
+  "Using any type in templates and component bindings": medium
+  "Placing business logic in components instead of services": medium
+  "Nested subscriptions instead of RxJS operators": high
+  "Ignoring lazy loading for feature modules": low

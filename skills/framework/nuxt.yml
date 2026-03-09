@@ -1,0 +1,30 @@
+skillId: fw-nuxt
+category: framework
+name: Nuxt Patterns
+version: "1.0.0"
+language: typescript
+match:
+  files:
+    - "*.vue"
+    - "*.ts"
+  dependencies:
+    - nuxt
+rules:
+  - "Use auto-imports for composables, components, and utilities"
+  - "Define server routes in the server/api directory"
+  - "Create reusable composables for shared logic"
+  - "Use useFetch or useAsyncData for data fetching"
+  - "Leverage Nuxt middleware for route guards"
+  - "Use app.config.ts for runtime configuration"
+antiPatterns:
+  - "Direct API calls in components instead of useFetch/useAsyncData"
+  - "Ignoring server and client boundary restrictions"
+  - "Manual route definitions instead of file-based routing"
+  - "Importing auto-imported modules explicitly"
+  - "Storing secrets in runtime config exposed to client"
+severity:
+  "Direct API calls in components instead of useFetch/useAsyncData": medium
+  "Ignoring server and client boundary restrictions": high
+  "Manual route definitions instead of file-based routing": low
+  "Importing auto-imported modules explicitly": low
+  "Storing secrets in runtime config exposed to client": high

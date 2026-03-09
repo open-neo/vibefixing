@@ -1,11 +1,15 @@
 import { resolve } from "node:path";
+import fg from "fast-glob";
 import { parse as parseTOML } from "smol-toml";
+import { parse as parseYaml } from "yaml";
 import { fileExists, readFileContent } from "../utils/file.js";
 
 export interface DetectionResult {
   languages: string[];
   frameworks: string[];
   packageManagers: string[];
+  infrastructure: string[];
+  databases: string[];
 }
 
 interface PackageJson {
@@ -26,15 +30,56 @@ const FRAMEWORK_DETECTORS: Array<{
   { name: "flask", packages: ["flask"] },
   { name: "fastapi", packages: ["fastapi"] },
   { name: "spring", packages: ["spring-boot-starter"] },
+  { name: "vue", packages: ["vue"] },
+  { name: "angular", packages: ["@angular/core"] },
+  { name: "nuxt", packages: ["nuxt"] },
+  { name: "svelte", packages: ["svelte", "@sveltejs/kit"] },
+  { name: "remix", packages: ["@remix-run/react"] },
+  { name: "astro", packages: ["astro"] },
+  { name: "supabase", packages: ["@supabase/supabase-js"] },
+  { name: "firebase", packages: ["firebase", "firebase-admin"] },
+  { name: "rails", packages: ["rails"] },
+  { name: "laravel", packages: ["laravel/framework"] },
+  { name: "flutter", packages: ["flutter"] },
 ];
 
 const LANGUAGE_FILE_PATTERNS: Record<string, string[]> = {
   typescript: ["tsconfig.json", "*.ts", "*.tsx"],
+  javascript: ["package.json", "*.js", "*.jsx"],
   python: ["requirements.txt", "pyproject.toml", "setup.py", "*.py"],
   java: ["pom.xml", "build.gradle", "*.java"],
   go: ["go.mod", "*.go"],
   rust: ["Cargo.toml", "*.rs"],
   ruby: ["Gemfile", "*.rb"],
+  php: ["composer.json", "*.php"],
+  csharp: ["*.csproj", "*.sln"],
+  swift: ["Package.swift", "*.swift"],
+  kotlin: ["*.kt", "build.gradle.kts"],
+  scala: ["build.sbt", "*.scala"],
+  dart: ["pubspec.yaml", "*.dart"],
+  elixir: ["mix.exs", "*.ex"],
+};
+
+const DATABASE_DETECTORS: Array<{
+  name: string;
+  packages: string[];
+}> = [
+  { name: "postgresql", packages: ["pg", "pgx", "psycopg2", "asyncpg"] },
+  { name: "mysql", packages: ["mysql2", "mysql", "mysqlclient", "pymysql"] },
+  { name: "mongodb", packages: ["mongodb", "mongoose", "pymongo"] },
+  { name: "redis", packages: ["redis", "ioredis", "aioredis"] },
+  { name: "bigquery", packages: ["@google-cloud/bigquery", "google-cloud-bigquery"] },
+  { name: "firestore", packages: ["@google-cloud/firestore"] },
+];
+
+const INFRASTRUCTURE_FILE_PATTERNS: Record<string, string[]> = {
+  terraform: ["*.tf", "terraform.tfstate"],
+  docker: ["Dockerfile", "docker-compose.yml", "docker-compose.yaml"],
+  kubernetes: ["k8s/*.yml", "k8s/*.yaml"],
+  "github-actions": [".github/workflows/*.yml"],
+  aws: ["samconfig.toml", "cdk.json", "serverless.yml"],
+  gcp: ["app.yaml", "cloudbuild.yaml"],
+  azure: ["azure-pipelines.yml", "host.json"],
 };
 
 export async function detectProjectStack(
@@ -43,8 +88,10 @@ export async function detectProjectStack(
   const languages = await detectLanguages(rootPath);
   const frameworks = await detectFrameworks(rootPath);
   const packageManagers = await detectPMs(rootPath);
+  const infrastructure = await detectInfrastructure(rootPath);
+  const databases = await detectDatabases(rootPath);
 
-  return { languages, frameworks, packageManagers };
+  return { languages, frameworks, packageManagers, infrastructure, databases };
 }
 
 async function detectLanguages(rootPath: string): Promise<string[]> {
@@ -340,7 +387,252 @@ async function detectFrameworks(rootPath: string): Promise<string[]> {
     }
   }
 
+  // ── Ruby: Gemfile ──
+  const gemfilePath = resolve(rootPath, "Gemfile");
+  if (await fileExists(gemfilePath)) {
+    try {
+      const content = await readFileContent(gemfilePath);
+      const packages = parseGemfile(content);
+      matchFrameworksFromPackages(packages, detected);
+    } catch {
+      // Ignore read errors
+    }
+  }
+
+  // ── PHP: composer.json ──
+  const composerPath = resolve(rootPath, "composer.json");
+  if (await fileExists(composerPath)) {
+    try {
+      const content = await readFileContent(composerPath);
+      const packages = parseComposerJson(content);
+      matchFrameworksFromPackages(packages, detected);
+    } catch {
+      // Ignore read errors
+    }
+  }
+
+  // ── Dart: pubspec.yaml ──
+  const pubspecPath = resolve(rootPath, "pubspec.yaml");
+  if (await fileExists(pubspecPath)) {
+    try {
+      const content = await readFileContent(pubspecPath);
+      const packages = parsePubspecYaml(content);
+      matchFrameworksFromPackages(packages, detected);
+    } catch {
+      // Ignore read errors
+    }
+  }
+
+  // ── Java: pom.xml (Spring detection) ──
+  const pomPath = resolve(rootPath, "pom.xml");
+  if (await fileExists(pomPath)) {
+    try {
+      const content = await readFileContent(pomPath);
+      if (content.includes("spring-boot") || content.includes("spring-framework")) {
+        if (!detected.includes("spring")) {
+          detected.push("spring");
+        }
+      }
+    } catch {
+      // Ignore read errors
+    }
+  }
+
+  // ── Java: build.gradle (Spring detection) ──
+  const gradlePath = resolve(rootPath, "build.gradle");
+  if (await fileExists(gradlePath)) {
+    try {
+      const content = await readFileContent(gradlePath);
+      if (content.includes("spring-boot") || content.includes("org.springframework")) {
+        if (!detected.includes("spring")) {
+          detected.push("spring");
+        }
+      }
+    } catch {
+      // Ignore read errors
+    }
+  }
+
+  // ── C#: .csproj (ASP.NET detection) ──
+  const csprojFiles = await fg("*.csproj", { cwd: rootPath, absolute: true });
+  for (const csprojFile of csprojFiles) {
+    try {
+      const content = await readFileContent(csprojFile);
+      if (content.includes("Microsoft.AspNetCore") || content.includes("Microsoft.NET.Sdk.Web")) {
+        if (!detected.includes("aspnet")) {
+          detected.push("aspnet");
+        }
+      }
+    } catch {
+      // Ignore read errors
+    }
+  }
+
   return detected;
+}
+
+// ── Gemfile parser (Ruby) ────────────────────────────────────────────────
+function parseGemfile(content: string): Set<string> {
+  const gems = new Set<string>();
+  for (const raw of content.split("\n")) {
+    const line = raw.trim();
+    if (!line || line.startsWith("#")) continue;
+    const match = line.match(/^\s*gem\s+['"]([^'"]+)['"]/);
+    if (match) {
+      gems.add(match[1]);
+    }
+  }
+  return gems;
+}
+
+// ── composer.json parser (PHP) ──────────────────────────────────────────
+function parseComposerJson(content: string): Set<string> {
+  const packages = new Set<string>();
+  try {
+    const data = JSON.parse(content) as {
+      require?: Record<string, string>;
+      "require-dev"?: Record<string, string>;
+    };
+    const allDeps = { ...data.require, ...data["require-dev"] };
+    for (const name of Object.keys(allDeps)) {
+      packages.add(name);
+    }
+  } catch {
+    // Ignore parse errors
+  }
+  return packages;
+}
+
+// ── pubspec.yaml parser (Dart/Flutter) ──────────────────────────────────
+function parsePubspecYaml(content: string): Set<string> {
+  const packages = new Set<string>();
+  try {
+    const data = parseYaml(content) as {
+      dependencies?: Record<string, unknown>;
+      dev_dependencies?: Record<string, unknown>;
+    };
+    if (data.dependencies) {
+      for (const name of Object.keys(data.dependencies)) {
+        packages.add(name);
+      }
+    }
+    if (data.dev_dependencies) {
+      for (const name of Object.keys(data.dev_dependencies)) {
+        packages.add(name);
+      }
+    }
+  } catch {
+    // Ignore parse errors
+  }
+  return packages;
+}
+
+// ── Infrastructure detection (file-based) ───────────────────────────────
+async function detectInfrastructure(rootPath: string): Promise<string[]> {
+  const detected: string[] = [];
+
+  for (const [infra, patterns] of Object.entries(INFRASTRUCTURE_FILE_PATTERNS)) {
+    for (const pattern of patterns) {
+      if (pattern.includes("*")) {
+        // Use glob for wildcard patterns
+        const matches = await fg(pattern, {
+          cwd: rootPath,
+          onlyFiles: true,
+          dot: true,
+        });
+        if (matches.length > 0) {
+          detected.push(infra);
+          break;
+        }
+      } else {
+        if (await fileExists(resolve(rootPath, pattern))) {
+          detected.push(infra);
+          break;
+        }
+      }
+    }
+  }
+
+  return detected;
+}
+
+// ── Database detection (package-based) ──────────────────────────────────
+async function detectDatabases(rootPath: string): Promise<string[]> {
+  const detected: string[] = [];
+  const allPackages = await collectAllPackages(rootPath);
+
+  for (const detector of DATABASE_DETECTORS) {
+    if (detector.packages.some((p) => allPackages.has(p) || allPackages.has(normalizePythonPackageName(p)))) {
+      detected.push(detector.name);
+    }
+  }
+
+  return detected;
+}
+
+// ── Collect all packages from all supported manifest files ──────────────
+async function collectAllPackages(rootPath: string): Promise<Set<string>> {
+  const allPackages = new Set<string>();
+
+  // Node.js: package.json
+  const pkgPath = resolve(rootPath, "package.json");
+  if (await fileExists(pkgPath)) {
+    try {
+      const content = await readFileContent(pkgPath);
+      const pkg: PackageJson = JSON.parse(content);
+      const deps = { ...pkg.dependencies, ...pkg.devDependencies };
+      for (const name of Object.keys(deps)) {
+        allPackages.add(name);
+      }
+    } catch { /* ignore */ }
+  }
+
+  // Python: requirements.txt
+  const reqPath = resolve(rootPath, "requirements.txt");
+  if (await fileExists(reqPath)) {
+    try {
+      const content = await readFileContent(reqPath);
+      for (const p of parseRequirementsTxt(content)) allPackages.add(p);
+    } catch { /* ignore */ }
+  }
+
+  // Python: pyproject.toml
+  const pyprojectPath = resolve(rootPath, "pyproject.toml");
+  if (await fileExists(pyprojectPath)) {
+    try {
+      const content = await readFileContent(pyprojectPath);
+      for (const p of parsePyprojectToml(content)) allPackages.add(p);
+    } catch { /* ignore */ }
+  }
+
+  // Ruby: Gemfile
+  const gemfilePath = resolve(rootPath, "Gemfile");
+  if (await fileExists(gemfilePath)) {
+    try {
+      const content = await readFileContent(gemfilePath);
+      for (const p of parseGemfile(content)) allPackages.add(p);
+    } catch { /* ignore */ }
+  }
+
+  // PHP: composer.json
+  const composerPath = resolve(rootPath, "composer.json");
+  if (await fileExists(composerPath)) {
+    try {
+      const content = await readFileContent(composerPath);
+      for (const p of parseComposerJson(content)) allPackages.add(p);
+    } catch { /* ignore */ }
+  }
+
+  // Dart: pubspec.yaml
+  const pubspecPath = resolve(rootPath, "pubspec.yaml");
+  if (await fileExists(pubspecPath)) {
+    try {
+      const content = await readFileContent(pubspecPath);
+      for (const p of parsePubspecYaml(content)) allPackages.add(p);
+    } catch { /* ignore */ }
+  }
+
+  return allPackages;
 }
 
 // ── Package manager detection ───────────────────────────────────────────

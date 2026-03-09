@@ -1,0 +1,26 @@
+skillId: lang-ruby
+category: language
+name: Ruby Best Practices
+version: "1.0.0"
+language: ruby
+match:
+  files:
+    - "*.rb"
+    - "Gemfile"
+  dependencies: []
+rules:
+  - "Use snake_case for methods and variables, CamelCase for classes and modules"
+  - "Add frozen_string_literal: true magic comment to all files"
+  - "Prefer blocks and iterators over explicit loops"
+  - "Use symbols instead of strings for hash keys and identifiers"
+  - "Follow the principle of least surprise in method naming"
+antiPatterns:
+  - "Monkey-patching standard library classes in production code"
+  - "Using global variables ($global_var)"
+  - "Evaluating strings with eval or instance_eval from user input"
+  - "Rescuing Exception instead of StandardError"
+severity:
+  "Monkey-patching standard library classes in production code": high
+  "Using global variables ($global_var)": medium
+  "Evaluating strings with eval or instance_eval from user input": high
+  "Rescuing Exception instead of StandardError": medium

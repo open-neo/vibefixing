@@ -1,0 +1,31 @@
+skillId: fw-firebase
+category: framework
+name: Firebase Patterns
+version: "1.0.0"
+language: typescript
+match:
+  files:
+    - "*.ts"
+    - "*.js"
+  dependencies:
+    - firebase
+    - firebase-admin
+rules:
+  - "Define and deploy Firestore and Storage security rules"
+  - "Implement proper authentication flows with Firebase Auth"
+  - "Design Firestore data models with query patterns in mind"
+  - "Follow Cloud Functions best practices for cold start optimization"
+  - "Use batched writes and transactions for atomic operations"
+  - "Structure Firestore collections for efficient reads and pagination"
+antiPatterns:
+  - "Deploying with disabled or overly permissive security rules"
+  - "Using firebase-admin SDK in client-side code"
+  - "Running unbounded queries without limits or pagination"
+  - "Missing composite indexes for compound Firestore queries"
+  - "Storing large blobs in Firestore instead of Cloud Storage"
+severity:
+  "Deploying with disabled or overly permissive security rules": high
+  "Using firebase-admin SDK in client-side code": high
+  "Running unbounded queries without limits or pagination": medium
+  "Missing composite indexes for compound Firestore queries": medium
+  "Storing large blobs in Firestore instead of Cloud Storage": medium

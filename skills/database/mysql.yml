@@ -1,0 +1,29 @@
+skillId: db-mysql
+category: database
+name: MySQL Best Practices
+version: "1.0.0"
+match:
+  files:
+    - "*.sql"
+    - "*.ts"
+    - "*.py"
+    - "*.php"
+rules:
+  - "Use InnoDB engine for transactional table support"
+  - "Create proper indexes on frequently filtered columns"
+  - "Use prepared statements for all dynamic queries"
+  - "Set character set to utf8mb4 for full Unicode support"
+  - "Define explicit primary keys on all tables"
+  - "Use EXPLAIN to analyze and optimize slow queries"
+antiPatterns:
+  - "Using MyISAM engine for transactional data"
+  - "Relying on implicit type conversions in queries"
+  - "Creating tables without primary keys"
+  - "Using SELECT * in production application queries"
+  - "Missing indexes on JOIN columns"
+severity:
+  "Using MyISAM engine for transactional data": high
+  "Relying on implicit type conversions in queries": medium
+  "Creating tables without primary keys": high
+  "Using SELECT * in production application queries": medium
+  "Missing indexes on JOIN columns": high

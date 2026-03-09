@@ -1,0 +1,28 @@
+skillId: lang-php
+category: language
+name: PHP Best Practices
+version: "1.0.0"
+language: php
+match:
+  files:
+    - "*.php"
+  dependencies: []
+rules:
+  - "Declare strict_types=1 in every PHP file"
+  - "Follow PSR-12 coding style standards"
+  - "Use type declarations for function parameters and return types"
+  - "Use prepared statements for all database queries"
+  - "Prefer composition over inheritance in class design"
+  - "Use named arguments for functions with many parameters"
+antiPatterns:
+  - "Using register_globals or relying on superglobal mutation"
+  - "Using eval() or dynamic code execution"
+  - "Writing raw SQL queries without prepared statements"
+  - "Suppressing errors with the @ operator"
+  - "Using short open tags (<?) instead of full tags (<?php)"
+severity:
+  "Using register_globals or relying on superglobal mutation": high
+  "Using eval() or dynamic code execution": high
+  "Writing raw SQL queries without prepared statements": high
+  "Suppressing errors with the @ operator": medium
+  "Using short open tags (<?) instead of full tags (<?php)": low

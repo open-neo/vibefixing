@@ -1,0 +1,26 @@
+skillId: lang-dart
+category: language
+name: Dart Best Practices
+version: "1.0.0"
+language: dart
+match:
+  files:
+    - "*.dart"
+  dependencies: []
+rules:
+  - "Enable and respect sound null safety throughout the codebase"
+  - "Follow Effective Dart style guidelines for naming and formatting"
+  - "Use async/await for asynchronous operations instead of raw Futures"
+  - "Use const constructors wherever possible for compile-time constants"
+  - "Prefer final for local variables that are not reassigned"
+  - "Use strong typing and avoid dynamic unless absolutely necessary"
+antiPatterns:
+  - "Ignoring analysis_options.yaml lint rules"
+  - "Overusing the dynamic type instead of proper static types"
+  - "Performing synchronous I/O operations on the main isolate"
+  - "Using late without guaranteeing initialization before access"
+severity:
+  "Ignoring analysis_options.yaml lint rules": medium
+  "Overusing the dynamic type instead of proper static types": high
+  "Performing synchronous I/O operations on the main isolate": high
+  "Using late without guaranteeing initialization before access": medium

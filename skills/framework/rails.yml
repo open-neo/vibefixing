@@ -1,0 +1,30 @@
+skillId: fw-rails
+category: framework
+name: Ruby on Rails Patterns
+version: "1.0.0"
+language: ruby
+match:
+  files:
+    - "*.rb"
+    - "*.erb"
+  dependencies:
+    - rails
+rules:
+  - "Follow fat models and skinny controllers convention"
+  - "Use ActiveRecord conventions for queries and associations"
+  - "Enforce strong parameters in controllers"
+  - "Extract shared logic into concerns and service objects"
+  - "Use database-level constraints alongside model validations"
+  - "Prefer scopes for reusable query logic"
+antiPatterns:
+  - "N+1 queries from missing includes or eager loading"
+  - "Skipping model validations with save(validate: false)"
+  - "SQL injection via string interpolation in queries"
+  - "Using callbacks for complex business logic"
+  - "Fat controllers with logic that belongs in models or services"
+severity:
+  "N+1 queries from missing includes or eager loading": high
+  "Skipping model validations with save(validate: false)": high
+  "SQL injection via string interpolation in queries": high
+  "Using callbacks for complex business logic": medium
+  "Fat controllers with logic that belongs in models or services": medium

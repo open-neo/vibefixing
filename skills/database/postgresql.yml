@@ -1,0 +1,29 @@
+skillId: db-postgresql
+category: database
+name: PostgreSQL Best Practices
+version: "1.0.0"
+match:
+  files:
+    - "*.sql"
+    - "*.ts"
+    - "*.py"
+    - "*.go"
+rules:
+  - "Create indexes for frequently queried columns"
+  - "Use parameterized queries to prevent SQL injection"
+  - "Wrap related operations in explicit transactions"
+  - "Configure connection pooling for production workloads"
+  - "Use versioned migrations for schema changes"
+  - "Prefer specific column lists over SELECT *"
+antiPatterns:
+  - "Using SELECT * in production queries"
+  - "Missing indexes on foreign key columns"
+  - "N+1 query patterns in application code"
+  - "Building queries with unparameterized string concatenation"
+  - "Opening connections without pooling in high-traffic services"
+severity:
+  "Using SELECT * in production queries": medium
+  "Missing indexes on foreign key columns": high
+  "N+1 query patterns in application code": high
+  "Building queries with unparameterized string concatenation": critical
+  "Opening connections without pooling in high-traffic services": high

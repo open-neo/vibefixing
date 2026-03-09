@@ -1,0 +1,29 @@
+skillId: db-redis
+category: database
+name: Redis Best Practices
+version: "1.0.0"
+match:
+  files:
+    - "*.ts"
+    - "*.js"
+    - "*.py"
+    - "*.go"
+rules:
+  - "Follow consistent key naming conventions with colons as separators"
+  - "Set TTL on all cache keys to prevent unbounded memory growth"
+  - "Use pipeline commands to batch multiple operations"
+  - "Configure connection pooling for concurrent access"
+  - "Use appropriate data structures for each use case"
+  - "Monitor memory usage and set maxmemory policies"
+antiPatterns:
+  - "Using KEYS command in production causing blocking scans"
+  - "Missing TTL on keys leading to memory leaks"
+  - "Storing excessively large values in single keys"
+  - "Using blocking commands without timeout parameters"
+  - "Creating new connections per request instead of pooling"
+severity:
+  "Using KEYS command in production causing blocking scans": critical
+  "Missing TTL on keys leading to memory leaks": high
+  "Storing excessively large values in single keys": medium
+  "Using blocking commands without timeout parameters": high
+  "Creating new connections per request instead of pooling": high

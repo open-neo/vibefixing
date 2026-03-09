@@ -1,0 +1,28 @@
+skillId: db-mongodb
+category: database
+name: MongoDB Best Practices
+version: "1.0.0"
+match:
+  files:
+    - "*.ts"
+    - "*.js"
+    - "*.py"
+rules:
+  - "Define schema validation rules on collections"
+  - "Create indexes for frequently queried fields"
+  - "Use aggregation pipelines for complex data transformations"
+  - "Configure connection pooling with appropriate pool size"
+  - "Design documents to match application query patterns"
+  - "Use projection to return only necessary fields"
+antiPatterns:
+  - "Running unbounded queries without limit or pagination"
+  - "Missing indexes on frequently queried fields"
+  - "Storing large binary files directly in documents"
+  - "Passing unvalidated user input directly into query operators"
+  - "Using excessively deep document nesting"
+severity:
+  "Running unbounded queries without limit or pagination": high
+  "Missing indexes on frequently queried fields": high
+  "Storing large binary files directly in documents": medium
+  "Passing unvalidated user input directly into query operators": critical
+  "Using excessively deep document nesting": medium

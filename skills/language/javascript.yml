@@ -1,0 +1,30 @@
+skillId: lang-javascript
+category: language
+name: JavaScript Best Practices
+version: "1.0.0"
+language: javascript
+match:
+  files:
+    - "*.js"
+    - "*.jsx"
+    - "*.mjs"
+  dependencies: []
+rules:
+  - "Use const and let instead of var for variable declarations"
+  - "Use === and !== instead of == and != for comparisons"
+  - "Prefer async/await over raw Promise chains"
+  - "Always handle errors in async functions with try/catch"
+  - "Use template literals instead of string concatenation"
+  - "Prefer destructuring for object and array access"
+antiPatterns:
+  - "Using var for variable declarations"
+  - "Using == or != for comparisons"
+  - "Deeply nested callbacks (callback hell)"
+  - "Using eval() or Function() constructor"
+  - "Modifying built-in prototypes"
+severity:
+  "Using var for variable declarations": medium
+  "Using == or != for comparisons": medium
+  "Deeply nested callbacks (callback hell)": high
+  "Using eval() or Function() constructor": high
+  "Modifying built-in prototypes": high

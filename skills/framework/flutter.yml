@@ -1,0 +1,29 @@
+skillId: fw-flutter
+category: framework
+name: Flutter Patterns
+version: "1.0.0"
+language: dart
+match:
+  files:
+    - "*.dart"
+  dependencies:
+    - flutter
+rules:
+  - "Compose small, reusable widgets instead of monolithic ones"
+  - "Use established state management patterns (Riverpod, Bloc, Provider)"
+  - "Apply const constructors on widgets wherever possible"
+  - "Handle platform-specific code with platform channels or conditional imports"
+  - "Separate business logic from UI using dedicated layers"
+  - "Use themed styles instead of inline styling for consistency"
+antiPatterns:
+  - "Deeply nested widget trees without extraction into sub-widgets"
+  - "Using setState for complex state in large widget trees"
+  - "Hardcoding strings instead of using localization"
+  - "Ignoring platform differences between iOS and Android"
+  - "Performing heavy computation on the main isolate"
+severity:
+  "Deeply nested widget trees without extraction into sub-widgets": medium
+  "Using setState for complex state in large widget trees": medium
+  "Hardcoding strings instead of using localization": low
+  "Ignoring platform differences between iOS and Android": medium
+  "Performing heavy computation on the main isolate": high

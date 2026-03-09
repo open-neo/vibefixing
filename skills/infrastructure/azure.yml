@@ -1,0 +1,30 @@
+skillId: infra-azure
+category: infrastructure
+name: Azure Best Practices
+version: "1.0.0"
+match:
+  files:
+    - "*.ts"
+    - "*.py"
+    - "*.yaml"
+    - "*.json"
+    - "*.cs"
+rules:
+  - "Use managed identity instead of service principal secrets"
+  - "Organize resources into logical resource groups"
+  - "Store secrets and certificates in Azure Key Vault"
+  - "Implement RBAC with custom roles scoped appropriately"
+  - "Use ARM templates or Bicep for infrastructure as code"
+  - "Enable diagnostics and monitoring on all resources"
+antiPatterns:
+  - "Shared access keys or connection strings in source code"
+  - "Missing network security groups on subnets"
+  - "Disabled diagnostic settings on production resources"
+  - "Overly permissive RBAC assignments at subscription level"
+  - "Storing secrets in application settings instead of Key Vault"
+severity:
+  "Shared access keys or connection strings in source code": critical
+  "Missing network security groups on subnets": high
+  "Disabled diagnostic settings on production resources": medium
+  "Overly permissive RBAC assignments at subscription level": critical
+  "Storing secrets in application settings instead of Key Vault": high

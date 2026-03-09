@@ -15,6 +15,8 @@ export const skillCategorySchema = z.enum([
   "architecture",
   "process",
   "security",
+  "infrastructure",
+  "database",
 ]);
 
 export const skillMatchSchema = z.object({

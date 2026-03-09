@@ -1,0 +1,29 @@
+skillId: infra-aws
+category: infrastructure
+name: AWS Best Practices
+version: "1.0.0"
+match:
+  files:
+    - "*.ts"
+    - "*.py"
+    - "*.yaml"
+    - "*.json"
+rules:
+  - "Apply IAM least privilege for all roles and policies"
+  - "Configure VPC security groups with minimal open ports"
+  - "Enable encryption at rest for all storage resources"
+  - "Follow CloudFormation and CDK best practices for IaC"
+  - "Enable proper logging with CloudTrail and CloudWatch"
+  - "Use private subnets for backend services"
+antiPatterns:
+  - "Wildcard IAM policies granting excessive permissions"
+  - "Public S3 buckets without access restrictions"
+  - "Hardcoded credentials or access keys in source code"
+  - "Unencrypted EBS volumes and S3 objects"
+  - "Security groups open to 0.0.0.0/0 on sensitive ports"
+severity:
+  "Wildcard IAM policies granting excessive permissions": critical
+  "Public S3 buckets without access restrictions": critical
+  "Hardcoded credentials or access keys in source code": critical
+  "Unencrypted EBS volumes and S3 objects": high
+  "Security groups open to 0.0.0.0/0 on sensitive ports": high

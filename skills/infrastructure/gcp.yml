@@ -1,0 +1,29 @@
+skillId: infra-gcp
+category: infrastructure
+name: GCP Best Practices
+version: "1.0.0"
+match:
+  files:
+    - "*.ts"
+    - "*.py"
+    - "*.yaml"
+    - "*.json"
+rules:
+  - "Use granular IAM bindings instead of primitive roles"
+  - "Configure VPC with private Google access and firewall rules"
+  - "Follow Cloud Run best practices for concurrency and scaling"
+  - "Use dedicated service accounts per workload"
+  - "Enable audit logging for all critical services"
+  - "Use Workload Identity for GKE authentication"
+antiPatterns:
+  - "Overly permissive IAM roles such as Owner or Editor"
+  - "Exposed service account keys in repositories"
+  - "Missing Cloud Audit Logs configuration"
+  - "Using the default VPC network for production workloads"
+  - "Disabling VPC flow logs in production"
+severity:
+  "Overly permissive IAM roles such as Owner or Editor": critical
+  "Exposed service account keys in repositories": critical
+  "Missing Cloud Audit Logs configuration": high
+  "Using the default VPC network for production workloads": high
+  "Disabling VPC flow logs in production": medium

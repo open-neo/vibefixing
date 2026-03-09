@@ -1,0 +1,25 @@
+skillId: lang-swift
+category: language
+name: Swift Best Practices
+version: "1.0.0"
+language: swift
+match:
+  files:
+    - "*.swift"
+  dependencies: []
+rules:
+  - "Use optionals safely with guard let, if let, or nil coalescing"
+  - "Prefer value types (structs, enums) over reference types (classes) when appropriate"
+  - "Use protocol-oriented programming to define shared behavior"
+  - "Mark classes as final unless designed for subclassing"
+  - "Use Swift concurrency (async/await, actors) for concurrent code"
+antiPatterns:
+  - "Force unwrapping optionals with ! in non-test code"
+  - "Overusing implicitly unwrapped optionals (IUOs)"
+  - "Creating retain cycles by not using weak or unowned references in closures"
+  - "Using Any or AnyObject instead of proper generic constraints"
+severity:
+  "Force unwrapping optionals with ! in non-test code": high
+  "Overusing implicitly unwrapped optionals (IUOs)": medium
+  "Creating retain cycles by not using weak or unowned references in closures": high
+  "Using Any or AnyObject instead of proper generic constraints": medium

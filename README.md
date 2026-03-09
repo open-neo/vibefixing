@@ -35,7 +35,12 @@ eslint checks syntax. VibeFixing checks your **stack**, **architecture**, and **
 ## Quick Start
 
 ```bash
+# npm
 npx vibefixing doctor
+
+# pip (requires Node.js 18+)
+pip install vibefixing
+vibefixing doctor
 ```
 
 Zero config. Auto-detects your stack and applies the right skills.
@@ -91,6 +96,8 @@ VibeFixing doesn't auto-rewrite your code. It **diagnoses** what's broken so you
 | **Security** | OWASP Top 10, hardcoded secrets, injection vectors, insecure defaults |
 | **Architecture** | Layer violations, circular dependencies, god objects, missing boundaries |
 | **Framework** | Next.js App Router misuse, NestJS DI anti-patterns, Express middleware gaps |
+| **Infrastructure** | Docker security, Terraform state management, K8s resource limits, CI/CD hardening |
+| **Database** | Missing indexes, N+1 queries, unparameterized queries, connection pooling |
 | **Quality** | Dead code, duplicated logic, complexity hotspots, missing error handling |
 | **Language** | TypeScript strict mode gaps, Python type hints, Go error handling, Java null safety |
 
@@ -106,16 +113,55 @@ Each skill is based on official documentation and industry-standard references:
 | Language | `python` | [PEP 8](https://peps.python.org/pep-0008/) / [Python Docs](https://docs.python.org/3/) |
 | Language | `go` | [Effective Go](https://go.dev/doc/effective_go) |
 | Language | `java` | [Oracle Java SE Best Practices](https://dev.java/learn/) |
+| Language | `javascript` | [MDN JavaScript Guide](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide) |
+| Language | `rust` | [The Rust Book](https://doc.rust-lang.org/book/) |
+| Language | `ruby` | [Ruby Style Guide](https://rubystyle.guide/) |
+| Language | `php` | [PHP The Right Way](https://phptherightway.com/) |
+| Language | `csharp` | [C# Documentation](https://learn.microsoft.com/en-us/dotnet/csharp/) |
+| Language | `swift` | [Swift.org Documentation](https://www.swift.org/documentation/) |
+| Language | `kotlin` | [Kotlin Docs](https://kotlinlang.org/docs/home.html) |
+| Language | `scala` | [Scala Documentation](https://docs.scala-lang.org/) |
+| Language | `dart` | [Effective Dart](https://dart.dev/effective-dart) |
+| Language | `elixir` | [Elixir Guides](https://elixir-lang.org/getting-started/) |
 | Framework | `nextjs` | [Next.js Docs](https://nextjs.org/docs) |
 | Framework | `react` | [React Docs](https://react.dev/reference/react) |
 | Framework | `nestjs` | [NestJS Docs](https://docs.nestjs.com/) |
 | Framework | `express` | [Express.js Guide](https://expressjs.com/en/guide/routing.html) |
+| Framework | `django` | [Django Docs](https://docs.djangoproject.com/) |
+| Framework | `flask` | [Flask Docs](https://flask.palletsprojects.com/) |
+| Framework | `vue` | [Vue.js Docs](https://vuejs.org/guide/) |
+| Framework | `angular` | [Angular Docs](https://angular.dev/) |
+| Framework | `nuxt` | [Nuxt Docs](https://nuxt.com/docs) |
+| Framework | `sveltekit` | [SvelteKit Docs](https://svelte.dev/docs/kit/) |
+| Framework | `spring` | [Spring Boot Docs](https://docs.spring.io/spring-boot/reference/) |
+| Framework | `rails` | [Rails Guides](https://guides.rubyonrails.org/) |
+| Framework | `laravel` | [Laravel Docs](https://laravel.com/docs/) |
+| Framework | `fastapi` | [FastAPI Docs](https://fastapi.tiangolo.com/) |
+| Framework | `aspnet` | [ASP.NET Core Docs](https://learn.microsoft.com/en-us/aspnet/core/) |
+| Framework | `flutter` | [Flutter Docs](https://docs.flutter.dev/) |
+| Framework | `remix` | [Remix Docs](https://remix.run/docs/) |
+| Framework | `astro` | [Astro Docs](https://docs.astro.build/) |
+| Framework | `supabase` | [Supabase Docs](https://supabase.com/docs) |
+| Framework | `firebase` | [Firebase Docs](https://firebase.google.com/docs) |
 | Security | `owasp-top10` | [OWASP Top 10 (2021)](https://owasp.org/www-project-top-ten/) |
 | Security | `secrets-detection` | [OWASP Secrets Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html) |
 | Architecture | `clean-architecture` | [The Clean Architecture — Robert C. Martin](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) |
 | Architecture | `ddd` | [Domain-Driven Design Reference — Eric Evans](https://www.domainlanguage.com/ddd/reference/) |
+| Infrastructure | `aws` | [AWS Well-Architected](https://aws.amazon.com/architecture/well-architected/) |
+| Infrastructure | `gcp` | [GCP Best Practices](https://cloud.google.com/docs/enterprise/best-practices-for-enterprise-organizations) |
+| Infrastructure | `azure` | [Azure Well-Architected](https://learn.microsoft.com/en-us/azure/well-architected/) |
+| Infrastructure | `terraform` | [Terraform Best Practices](https://developer.hashicorp.com/terraform/cloud-docs/recommended-practices) |
+| Infrastructure | `docker` | [Dockerfile Best Practices](https://docs.docker.com/build/building/best-practices/) |
+| Infrastructure | `kubernetes` | [Kubernetes Docs](https://kubernetes.io/docs/home/) |
+| Infrastructure | `github-actions` | [GitHub Actions Docs](https://docs.github.com/en/actions) |
+| Database | `postgresql` | [PostgreSQL Docs](https://www.postgresql.org/docs/) |
+| Database | `mysql` | [MySQL Docs](https://dev.mysql.com/doc/) |
+| Database | `mongodb` | [MongoDB Docs](https://www.mongodb.com/docs/) |
+| Database | `redis` | [Redis Docs](https://redis.io/docs/) |
+| Database | `bigquery` | [BigQuery Docs](https://cloud.google.com/bigquery/docs) |
+| Database | `firestore` | [Firestore Docs](https://firebase.google.com/docs/firestore) |
 
-**12 built-in skills. Auto-detected. No config needed.**
+**51 built-in skills. Auto-detected. No config needed.**
 
 ### Custom Skills
 
@@ -180,9 +226,13 @@ PR comments show findings inline with severity and suggested fixes.
 
 ## Supported Stacks
 
-**Languages**: TypeScript, Python, Go, Java
+**Languages**: TypeScript, JavaScript, Python, Go, Java, Rust, Ruby, PHP, C#, Swift, Kotlin, Scala, Dart, Elixir
 
-**Frameworks**: Next.js, React, NestJS, Express
+**Frameworks**: Next.js, React, NestJS, Express, Django, Flask, Vue, Angular, Nuxt, SvelteKit, Spring, Rails, Laravel, FastAPI, ASP.NET, Flutter, Remix, Astro, Supabase, Firebase
+
+**Infrastructure**: AWS, GCP, Azure, Terraform, Docker, Kubernetes, GitHub Actions
+
+**Databases**: PostgreSQL, MySQL, MongoDB, Redis, BigQuery, Firestore
 
 **Architectures**: Clean Architecture, DDD, Layered, MVC
 

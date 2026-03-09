@@ -1,0 +1,31 @@
+skillId: fw-supabase
+category: framework
+name: Supabase Patterns
+version: "1.0.0"
+language: typescript
+match:
+  files:
+    - "*.ts"
+    - "*.tsx"
+    - "*.js"
+  dependencies:
+    - "@supabase/supabase-js"
+rules:
+  - "Enable and enforce Row Level Security on all tables"
+  - "Use generated TypeScript types for type-safe queries"
+  - "Implement server-side logic with Supabase Edge Functions"
+  - "Use realtime subscriptions for live data updates"
+  - "Handle authentication flows with Supabase Auth helpers"
+  - "Use database functions and triggers for complex server-side logic"
+antiPatterns:
+  - "Bypassing Row Level Security with service role key on the client"
+  - "Exposing service role key in client-side code"
+  - "Using unvalidated user input directly in query filters"
+  - "Missing error handling on Supabase client operations"
+  - "Polling for data instead of using realtime subscriptions"
+severity:
+  "Bypassing Row Level Security with service role key on the client": high
+  "Exposing service role key in client-side code": high
+  "Using unvalidated user input directly in query filters": high
+  "Missing error handling on Supabase client operations": medium
+  "Polling for data instead of using realtime subscriptions": low

@@ -1,0 +1,28 @@
+skillId: db-bigquery
+category: database
+name: BigQuery Best Practices
+version: "1.0.0"
+match:
+  files:
+    - "*.sql"
+    - "*.py"
+    - "*.ts"
+rules:
+  - "Use partitioned tables for large datasets to reduce scan costs"
+  - "Apply clustering on frequently filtered columns"
+  - "Select only required columns instead of using SELECT *"
+  - "Estimate query costs before running expensive operations"
+  - "Use scheduled queries for recurring data transformations"
+  - "Set up billing alerts and query quotas"
+antiPatterns:
+  - "Running full table scans on large unpartitioned tables"
+  - "Using unpartitioned tables for datasets exceeding 1 GB"
+  - "Missing cost controls allowing runaway query expenses"
+  - "Not pruning columns resulting in unnecessary data processing"
+  - "Using SELECT * in production dashboards and reports"
+severity:
+  "Running full table scans on large unpartitioned tables": high
+  "Using unpartitioned tables for datasets exceeding 1 GB": high
+  "Missing cost controls allowing runaway query expenses": critical
+  "Not pruning columns resulting in unnecessary data processing": medium
+  "Using SELECT * in production dashboards and reports": medium

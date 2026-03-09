@@ -1,0 +1,28 @@
+skillId: db-firestore
+category: database
+name: Firestore Best Practices
+version: "1.0.0"
+match:
+  files:
+    - "*.ts"
+    - "*.js"
+    - "*.py"
+rules:
+  - "Model data structure to match application query patterns"
+  - "Write comprehensive security rules for all collections"
+  - "Use batch operations for multiple document writes"
+  - "Enable offline persistence for mobile and web clients"
+  - "Use composite indexes for multi-field queries"
+  - "Keep documents under the 1 MiB size limit"
+antiPatterns:
+  - "Creating deeply nested subcollections beyond two levels"
+  - "Deploying without security rules allowing public access"
+  - "Attaching unbounded snapshot listeners without cleanup"
+  - "Storing large blobs or arrays in single documents"
+  - "Reading entire collections instead of paginated queries"
+severity:
+  "Creating deeply nested subcollections beyond two levels": medium
+  "Deploying without security rules allowing public access": critical
+  "Attaching unbounded snapshot listeners without cleanup": high
+  "Storing large blobs or arrays in single documents": medium
+  "Reading entire collections instead of paginated queries": high
