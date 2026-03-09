@@ -11,6 +11,7 @@
 
 <p align="center">
   <a href="https://www.npmjs.com/package/vibefixing"><img src="https://img.shields.io/npm/v/vibefixing.svg" alt="npm version" /></a>
+  <a href="https://pypi.org/project/vibefixing/"><img src="https://img.shields.io/pypi/v/vibefixing.svg" alt="PyPI version" /></a>
   <a href="https://github.com/open-neo/vibefixing/stargazers"><img src="https://img.shields.io/github/stars/open-neo/vibefixing?style=social" alt="GitHub stars" /></a>
   <a href="https://github.com/open-neo/vibefixing/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-green.svg" alt="License" /></a>
 </p>
@@ -36,10 +37,13 @@ eslint checks syntax. VibeFixing checks your **stack**, **architecture**, and **
 
 ```bash
 # npm
-npx vibefixing doctor
+npm install -g vibefixing
 
-# pip (requires Node.js 18+)
-pip install vibefixing
+# pip
+pip3 install vibefixing
+```
+
+```bash
 vibefixing doctor
 ```
 
