@@ -90,7 +90,7 @@ function toSarif(result: ScanResult): object {
         tool: {
           driver: {
             name: "vibefixing",
-            version: "0.1.0",
+            version: "0.1.1",
             informationUri: "https://github.com/vibeplatform/vibefixing",
           },
         },

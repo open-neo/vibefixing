@@ -91,7 +91,7 @@ export function renderProgressBar(score: number, width = 20): string {
 }
 
 export function formatBrandHeader(): string {
-  return `\n  ${chalk.bold.cyan("VibeFixing")} ${chalk.gray("v0.1.0")}\n`;
+  return `\n  ${chalk.bold.cyan("VibeFixing")} ${chalk.gray("v0.1.1")}\n`;
 }
 
 export function formatDoctorReport(data: DoctorReportData): string {

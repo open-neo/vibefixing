@@ -56,19 +56,21 @@ function handleList(
   }
 
   const lines: string[] = [];
+  const idWidth = Math.max(10, ...skills.map((s) => s.skillId.length)) + 2;
   lines.push(
-    `${"SKILL ID".padEnd(22)}${"CATEGORY".padEnd(14)}${"STATUS".padEnd(8)}${"NAME"}`
+    `${"SKILL ID".padEnd(idWidth)}${"CATEGORY".padEnd(14)}${"STATUS".padEnd(8)}${"NAME"}`
   );
-  lines.push("─".repeat(70));
+  const lineWidth = idWidth + 14 + 8 + 30;
+  lines.push("─".repeat(lineWidth));
 
   for (const skill of skills) {
     const status = enabledIds.includes(skill.skillId) ? "active" : "avail";
     lines.push(
-      `${skill.skillId.padEnd(22)}${skill.category.padEnd(14)}${status.padEnd(8)}${skill.name}`
+      `${skill.skillId.padEnd(idWidth)}${skill.category.padEnd(14)}${status.padEnd(8)}${skill.name}`
     );
   }
 
-  lines.push("─".repeat(70));
+  lines.push("─".repeat(lineWidth));
   const activeCount = skills.filter((s) =>
     enabledIds.includes(s.skillId)
   ).length;

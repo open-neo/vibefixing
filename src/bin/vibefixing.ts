@@ -12,7 +12,7 @@ const program = new Command();
 program
   .name("vibefixing")
   .description("AI-powered code analysis and auto-fixing CLI tool")
-  .version("0.1.0")
+  .version("0.1.1")
   .option("--verbose", "Enable verbose output")
   .hook("preAction", (thisCommand) => {
     if (thisCommand.opts().verbose) {
