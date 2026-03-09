@@ -98,12 +98,22 @@ VibeFixing doesn't auto-rewrite your code. It **diagnoses** what's broken so you
 
 VibeFixing uses **skills** — structured analysis packs that understand specific languages, frameworks, and architectures.
 
-| Category | Skills |
-|---|---|
-| Language | `typescript` `python` `go` `java` |
-| Framework | `nextjs` `react` `nestjs` `express` |
-| Security | `owasp-top10` `secrets-detection` |
-| Architecture | `clean-architecture` `ddd` |
+Each skill is based on official documentation and industry-standard references:
+
+| Category | Skill | Reference |
+|---|---|---|
+| Language | `typescript` | [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/) |
+| Language | `python` | [PEP 8](https://peps.python.org/pep-0008/) / [Python Docs](https://docs.python.org/3/) |
+| Language | `go` | [Effective Go](https://go.dev/doc/effective_go) |
+| Language | `java` | [Oracle Java SE Best Practices](https://dev.java/learn/) |
+| Framework | `nextjs` | [Next.js Docs](https://nextjs.org/docs) |
+| Framework | `react` | [React Docs](https://react.dev/reference/react) |
+| Framework | `nestjs` | [NestJS Docs](https://docs.nestjs.com/) |
+| Framework | `express` | [Express.js Guide](https://expressjs.com/en/guide/routing.html) |
+| Security | `owasp-top10` | [OWASP Top 10 (2021)](https://owasp.org/www-project-top-ten/) |
+| Security | `secrets-detection` | [OWASP Secrets Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html) |
+| Architecture | `clean-architecture` | [The Clean Architecture — Robert C. Martin](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) |
+| Architecture | `ddd` | [Domain-Driven Design Reference — Eric Evans](https://www.domainlanguage.com/ddd/reference/) |
 
 **12 built-in skills. Auto-detected. No config needed.**
 
